@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'asv/main.css' %}" type="text/css" />
+    <title>ASV</title>
+</head>
+<body>
+    <div id="page-container" class="flex flex-col mx-auto w-full min-h-screen bg-gray-100">
+        <main id="page-content" class="flex flex-auto flex-col max-w-full">
+            <!-- Navbar -->
+            {% include "asv/navbar.html" %}
+            <!-- End Navbar -->
+
+             <!-- Content -->
+             {% block content %}
+             {% endblock %}
+             <!-- Content End -->
+        </main>
+    </div>
+</body>
+</html>
