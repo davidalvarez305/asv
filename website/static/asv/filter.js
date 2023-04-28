@@ -3,15 +3,14 @@ const form = document.getElementById("filter-trucks-form");
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  var formData = Object.fromEntries(new FormData(e.target).entries());
+  var formData = new URLSearchParams(Object.fromEntries(new FormData(e.target).entries()));
 
-  fetch(e.method, {
+  fetch("/trucks" + "?" + formData.toString(), {
     headers: {
       "Content-Type": "application/json",
     },
-    method: "POST",
+    method: "GET",
     credentials: "include",
-    body: JSON.stringify(formData),
   })
     .then((response) => response.json())
     .then(console.log)
