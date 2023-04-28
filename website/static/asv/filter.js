@@ -5,7 +5,7 @@ form.addEventListener("submit", function (e) {
 
   var formData = new URLSearchParams(Object.fromEntries(new FormData(e.target).entries()));
 
-  fetch("/trucks" + "?" + formData.toString(), {
+  fetch("/trucks?" + formData.toString(), {
     headers: {
       "Content-Type": "application/json",
     },
