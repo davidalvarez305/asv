@@ -47,8 +47,48 @@ class Upload(BaseView):
     def post(self, request, *args, **kwargs):
         file = request.FILES["upload_file"]
 
-        if not ".csv" in file:
+        if not ".csv" not in file:
             return HttpResponseBadRequest("CSV Only.")
 
-        handle_uploaded_file(file)
+        trucks_to_create = []
+        data = handle_uploaded_file(file)
+
+        for row in data:
+            sale_date = ""
+            if not '\ufeffSale_Date' in row:
+                sale_date = row.get('Sale_Date')
+            else:
+                sale_date = row.get('\ufeffSale_Date')
+
+            truck = Truck(
+            sale_date=sale_date,
+            vin=row.get('VIN'),
+            saledocumenttype=row.get('SaleDocumentType'),
+            loss_type=row.get('Loss_Type'),
+            damage_description_primary=row.get('Damage_Description_Primary'),
+            starts_at_checkin=row.get('Starts_At_CheckIn'),
+            runs_and_drives=row.get('Runs_And_Drives'),
+            miles=row.get('Miles'),
+            offer=row.get('Offer'),
+            odometerreadingtypedescription=row.get('OdometerReadingTypeDescription'),
+            air_bags_deployed=row.get('Air_Bags_Deployed'),
+            saleprice=row.get('SalePrice'),
+            branch=row.get('Branch'),
+            branch_zip_code=row.get('Branch_Zip_Code'),
+            drivelinetype=row.get('DriveLineType'),
+            year=row.get('Year'),
+            make=row.get('Make'),
+            model=row.get('Model'),
+            trim=row.get('Trim'),
+            bodytype=row.get('BodyType'),
+            cabtype=row.get('CabType'),
+            fueltype=row.get('FuelType'),
+            enginesize=row.get('EngineSize'),
+            data_type=row.get('Data_Type'),
+            stateabbreviation=row.get('StateAbbreviation')
+            )
+
+            trucks_to_create.append(truck)
+
+        Truck.objects.bulk_create(trucks_to_create)
         return render(request, self.template_name)
