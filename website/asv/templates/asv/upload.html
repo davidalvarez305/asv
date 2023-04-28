@@ -1,0 +1,26 @@
+{% extends "asv/base.html" %}
+{% load static %}
+{% block content %}
+<div class="bg-gray-100">
+    <div class="space-y-16 container xl:max-w-7xl mx-auto px-4 py-16 lg:px-8 lg:py-32">
+       <div class="text-center">
+          <h2 class="text-3xl md:text-4xl font-extrabold mb-4">
+             Upload
+          </h2>
+       </div>
+       <div class="lg:w-2/3 mx-auto bg-white p-5 md:p-10 rounded-lg shadow-sm">
+        <form class="space-y-6 dark:text-gray-100" method="POST" action="/upload" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label class="block">
+              <span class="sr-only">Choose File</span>
+              <input type="file" accept=".csv" id="upload_file" name="upload_file" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:text-gray-400 dark:file:text-blue-800 dark:file:bg-blue-200 dark:hover:file:bg-blue-300">
+            </label>
+            <button type="submit" class="inline-flex justify-center items-center space-x-2 border font-semibold rounded-lg px-4 py-2 leading-6 border-blue-700 bg-blue-700 text-white hover:text-white hover:bg-blue-600 hover:border-blue-600 focus:ring focus:ring-blue-400 focus:ring-opacity-50 active:bg-blue-700 active:border-blue-700 dark:focus:ring-blue-400 dark:focus:ring-opacity-90">
+                <span>Submit</span>
+                <svg class="hi-mini hi-arrow-right inline-block w-5 h-5 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg>
+            </button>
+          </form>
+       </div>
+    </div>
+ </div>
+  {% endblock %}
