@@ -3,3 +3,4 @@ python-dotenv==1.0.0
 asgiref==3.6.0
 psycopg2==2.9.6
 sqlparse==0.4.4
+uWSGI==2.0.21

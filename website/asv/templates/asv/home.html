@@ -9,7 +9,7 @@
              Filter From The Controls
           </h2>
        </div>
-       <div class="lg:w-2/3 mx-auto bg-white p-5 md:p-10 rounded-lg shadow-sm">
+       <div id="filter-container" class="lg:w-2/3 mx-auto bg-white p-5 md:p-10 rounded-lg shadow-sm">
           <form class="space-y-6" id="filter-trucks-form">
             <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
@@ -84,7 +84,7 @@
              </button>
           </form>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 text-center"></div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 mt-8 text-center">
             <!-- Card -->
             <div id="data-counter-container" style="display: none;" class="flex flex-col rounded-lg shadow-sm bg-white overflow-hidden dark:text-gray-100 dark:bg-gray-800">
                <div class="p-5 grow">
@@ -112,9 +112,39 @@
                </div>
             </div>
             <!-- END Card -->
+
+            <!-- Card -->
+            <div id="details-toggle" style="display: none;" class="flex flex-col rounded-lg shadow-sm bg-white overflow-hidden dark:text-gray-100 dark:bg-gray-800">
+               <div class="p-5 grow">
+               <dl class="space-y-1 py-5">
+                  <button type="button" class="inline-flex justify-center items-center space-x-2 border font-semibold rounded-lg px-4 py-2 leading-6 text-sm border-emerald-700 bg-emerald-700 text-white hover:text-white hover:bg-emerald-600 hover:border-emerald-600 focus:ring focus:ring-emerald-400 focus:ring-opacity-50 active:bg-emerald-700 active:border-emerald-700 dark:focus:ring-emerald-400 dark:focus:ring-opacity-90">
+                     See Details
+                   </button>
+               </dl>
+               </div>
+            </div>
+            <!-- END Card -->
          </div>
 
        </div>
+
+      <!-- Tables: Bordered -->
+      <div id="table-container" style="display: none;" class="border border-gray-200 rounded overflow-x-auto min-w-full bg-white dark:bg-gray-800 dark:border-gray-700">
+         <!-- Table -->
+         <table id="data-table" class="min-w-full text-sm align-middle whitespace-nowrap">
+         <!-- Table Header -->
+         <thead>
+            <tr id="data-table-heading-row" class="border-b border-gray-100 dark:border-gray-700/50"></tr>
+         </thead>
+         <!-- END Table Header -->
+      
+         <!-- Table Body -->
+         <tbody id="data-table-body"></tbody>
+         <!-- END Table Body -->
+         </table>
+         <!-- END Table -->
+      </div>
+      <!-- END Responsive Table Container -->
     </div>
  </div>
  
