@@ -1,3 +1,4 @@
+import json
 import os
 from django.shortcuts import render
 from django.views import View
@@ -29,15 +30,8 @@ class Trucks(BaseView):
     def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
-        print(params)
-
-        trucks = Truck.objects.all()
-
-        JSON = serializers.get_serializer("json")
-        data = JSON()
-        data.serialize(trucks)
-        data = data.getvalue()
-        return JsonResponse(data)
+        trucks = list(Truck.objects.filter(**params).values())
+        return JsonResponse({ 'data': trucks })
     
 class Upload(BaseView):
     template_name = 'asv/upload.html'

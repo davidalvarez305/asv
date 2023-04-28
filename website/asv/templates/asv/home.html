@@ -1,7 +1,6 @@
 {% extends "asv/base.html" %}
 {% load static %}
 {% block content %}
-<!-- Contact Section: Simple Boxed -->
 <div class="bg-gray-100">
     <div class="space-y-16 container xl:max-w-7xl mx-auto px-4 py-16 lg:px-8 lg:py-32">
        <!-- Heading -->
@@ -10,29 +9,39 @@
              Filter From The Controls
           </h2>
        </div>
-       <!-- END Heading -->
-       <!-- Contact Form -->
        <div class="lg:w-2/3 mx-auto bg-white p-5 md:p-10 rounded-lg shadow-sm">
           <form class="space-y-6" id="filter-trucks-form">
             <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="service">Service</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
-                       <option value=""></option>
+                    <label class="font-medium" for="year">year</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="year" name="year">
+                     <option value=""></option>
+                     <option value="2015">2015</option>
+                       <option value="2016">2016</option>
+                       <option value="2017">2017</option>
+                       <option value="2018">2018</option>
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="bodytype">bodytype</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="bodytype" name="bodytype">
+                    <label class="font-medium" for="make">make</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="make" name="make">
                        <option value=""></option>
+                       <option value="Honda">Honda</option>
+                       <option value="Toyota">Toyota</option>
+                       <option value="Audi">Audi</option>
+                       <option value="bmw">bmw</option>
                     </select>
                 </div>
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="service">Service</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
+                    <label class="font-medium" for="model">model</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="model" name="model">
                        <option value=""></option>
+                       <option value="Civic">Civic</option>
+                       <option value="Accord">Accord</option>
+                       <option value="Corolla">Corolla</option>
+                       <option value="Camry">Camry</option>
                     </select>
                 </div>
                 <div class="space-y-1 grow">
@@ -75,7 +84,6 @@
              </button>
           </form>
        </div>
-       <!-- END Contact Form -->
     </div>
  </div>
  

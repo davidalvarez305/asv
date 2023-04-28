@@ -3,9 +3,14 @@ const form = document.getElementById("filter-trucks-form");
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  var formData = new URLSearchParams(Object.fromEntries(new FormData(e.target).entries()));
+  let values = {};
+  const entry = Object.fromEntries(new FormData(e.target));
+  for (const [key, value] of Object.entries(entry)) {
+    if (value.length > 0) values[key] = value.toUpperCase();
+  }
+  const data = new URLSearchParams(values);
 
-  fetch("/trucks?" + formData.toString(), {
+  fetch("/trucks?" + data.toString(), {
     headers: {
       "Content-Type": "application/json",
     },
