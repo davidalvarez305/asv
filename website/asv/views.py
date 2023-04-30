@@ -1,10 +1,10 @@
-import json
 import os
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from asv.models import Truck
 from asv.utils.upload_file import handle_uploaded_file
@@ -23,18 +23,21 @@ class BaseView(View):
         ctx['path'] = request.path
         return render(request, self.template_name, context=ctx)
 
-class HomeView(BaseView):
+class HomeView(LoginRequiredMixin, BaseView):
+    login_url="/login"
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
     
-class Trucks(BaseView):
+class Trucks(LoginRequiredMixin, BaseView):
+    login_url="/login"
     def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
         trucks = list(Truck.objects.filter(**params).values())
         return JsonResponse({ 'data': trucks })
     
-class Upload(BaseView):
+class Upload(LoginRequiredMixin, BaseView):
+    login_url="/login"
     template_name = 'asv/upload.html'
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -100,6 +103,6 @@ class Login(BaseView):
 
         if user is not None:
             login(request, user)
-            redirect("/")
+            return JsonResponse({ 'data': 'Success.'}, status=200)
         else:
             return JsonResponse({ 'data': 'Authentication failed.'}, status=400)

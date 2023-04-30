@@ -26,6 +26,7 @@ form.addEventListener("submit", function (e) {
     .then((response) => response.json())
     .then(({ data }) => {
       if (data == "Authentication failed.") errorNotice.style.display = "";
+      if (data == "Success.") window.location.replace("/");
     })
     .catch(console.error);
 });
