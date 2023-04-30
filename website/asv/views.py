@@ -1,9 +1,9 @@
-import json
 import os
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponseBadRequest, JsonResponse
-from django.core import serializers
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
 
 from asv.models import Truck
 from asv.utils.upload_file import handle_uploaded_file
@@ -86,3 +86,20 @@ class Upload(BaseView):
 
         Truck.objects.bulk_create(trucks_to_create)
         return render(request, self.template_name)
+    
+class Login(BaseView):
+    template_name = 'asv/login.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+    
+    def post(self, request, *args, **kwargs):
+
+        form = request.POST.dict()
+        user = authenticate(request=request, username=form.get('username'), password=form.get('password'))
+
+        if user is not None:
+            login(request, user)
+            redirect("/")
+        else:
+            return JsonResponse({ 'data': 'Authenticated failed.'}, status=400)
