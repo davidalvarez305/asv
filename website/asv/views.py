@@ -94,7 +94,6 @@ class Login(BaseView):
         return render(request, self.template_name)
     
     def post(self, request, *args, **kwargs):
-
         form = request.POST.dict()
         user = authenticate(request=request, username=form.get('username'), password=form.get('password'))
 
