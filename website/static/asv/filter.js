@@ -1,4 +1,6 @@
 const form = document.getElementById("filter-trucks-form");
+
+// Home Cards
 const counter = document.getElementById("data-counter");
 const counterContainer = document.getElementById("data-counter-container");
 const average = document.getElementById("data-average");
@@ -8,13 +10,15 @@ const filterContainer = document.getElementById("filter-container");
 const tableContainer = document.getElementById("table-container");
 const headingContainer = document.getElementById("heading-container");
 const topCardsContainer = document.getElementById("top-cards-container");
-const filteredVehiclesContainer = document.getElementById("filtered-vehicles-container");
-const filteredVehiclesCounter = document.getElementById("filtered-vehicles");
+
+// Details Cards
+const filteredVehiclesCounterContainer = document.getElementById("filtered-vehicles-counter-container");
+const filteredVehiclesCounter = document.getElementById("filtered-vehicles-counter");
 const filteredVehiclesAverageContainer = document.getElementById("filtered-vehicles-average-container");
 const filteredVehiclesAverage = document.getElementById("filtered-vehicles-average");
-const filteredVehiclesDetails = document.getElementById("filtered-vehicles-details");
+const filteredVehiclesToggle = document.getElementById("filtered-vehicles-toggle");
 
-window.apiData = [];
+window.filteredVehiclesData = [];
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -40,7 +44,7 @@ form.addEventListener("submit", function (e) {
       averageContainer.style.display = "";
       average.innerHTML = "$" + calculateAverage(data).toFixed(2);
       detailsToggle.style.display = "";
-      apiData = data;
+      window.filteredVehiclesData = data;
     })
     .catch(console.error);
 });
@@ -53,6 +57,26 @@ detailsToggle.addEventListener("click", function () {
 
   headingContainer.style.display = "none";
   topCardsContainer.style.display = "";
+
+  topCardsContainer.style.display = "";
+  filteredVehiclesToggle.style.display = "";
+  filteredVehiclesCounterContainer.style.display = "";
+  filteredVehiclesAverageContainer.style.display = "";
+  filteredVehiclesAverage.innerHTML = "$" + calculateAverage(window.filteredVehiclesData).toFixed(2);
+  filteredVehiclesCounter.innerHTML = window.filteredVehiclesData.length;
+});
+
+filteredVehiclesToggle.addEventListener("click", function() {
+  filterContainer.style.display = "";
+  tableContainer.style.display = "none";
+
+  headingContainer.style.display = "";
+  topCardsContainer.style.display = "none";
+
+  topCardsContainer.style.display = "none";
+  filteredVehiclesToggle.style.display = "none";
+  filteredVehiclesCounterContainer.style.display = "none";
+  filteredVehiclesAverageContainer.style.display = "none";
 });
 
 function calculateAverage(data) {
@@ -69,7 +93,7 @@ function createTable() {
   const tableBody = document.getElementById("data-table-body");
   const tableHeadingRow = document.getElementById("data-table-heading-row");
 
-  const headers = Object.keys(window.apiData[0]);
+  const headers = Object.keys(window.filteredVehiclesData[0]);
 
   // Create headers
   for (let i = 0; i < headers.length; i++) {
@@ -81,7 +105,7 @@ function createTable() {
   }
 
   // Fill body with data
-  window.apiData.forEach((item) => {
+  window.filteredVehiclesData.forEach((item) => {
     const values = Object.values(item);
     const row = document.createElement("tr");
     row.className = rowClass;
