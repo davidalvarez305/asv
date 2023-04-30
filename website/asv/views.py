@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponseBadRequest, JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -106,3 +106,8 @@ class Login(BaseView):
             return JsonResponse({ 'data': 'Success.'}, status=200)
         else:
             return JsonResponse({ 'data': 'Authentication failed.'}, status=400)
+        
+class Logout(BaseView):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return JsonResponse({ 'data': 'Logged out.'}, status=200)
