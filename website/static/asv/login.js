@@ -17,11 +17,10 @@ form.addEventListener("submit", function (e) {
 
   fetch("/login", {
     headers: {
-      "Content-Type": "application/json",
       "X-CSRFToken": values.csrfmiddlewaretoken,
     },
     method: "POST",
-    body: JSON.stringify(values),
+    body: new FormData(e.target),
     credentials: "include",
   })
     .then((response) => response.json())
