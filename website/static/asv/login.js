@@ -4,33 +4,35 @@ const rememberMe = document.getElementById("remember_me");
 const username = document.getElementById("username");
 
 // Fill in username if "rememberMe" exists in localStorage
-document.addEventListener("DOMContentLoaded", function() {
-  const username = localStorage.getItem('username');
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("username");
 
   if (username) username.value = username;
 });
 
 form.addEventListener("submit", function (e) {
-    e.preventDefault();
-  
-    const values = Object.fromEntries(new FormData(e.target));
-  
-    fetch("/login", {
-      headers: {
-        "Content-Type": "application/json",
-        'X-CSRFToken': values.csrfmiddlewaretoken
-      },
-      method: "POST",
-      body: JSON.stringify(values),
-      credentials: "include",
+  e.preventDefault();
+
+  const values = Object.fromEntries(new FormData(e.target));
+
+  fetch("/login", {
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": values.csrfmiddlewaretoken,
+    },
+    method: "POST",
+    body: JSON.stringify(values),
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then(({ data }) => {
+      if (data == "Authentication failed.") errorNotice.style.display = "";
     })
-    .catch((error) => {
-      console.log('ERROR: ', error.data);
-      errorNotice.style.display = "";
-    });
+    .catch(console.error);
 });
 
-rememberMe.addEventListener("click", function(e) {
-  if (username.innerHTML.length > 0 && e.target.checked) localStorage.setItem("username", username.value);
+rememberMe.addEventListener("click", function (e) {
+  if (username.innerHTML.length > 0 && e.target.checked)
+    localStorage.setItem("username", username.value);
   if (!e.target.checked) localStorage.removeItem("username");
 });

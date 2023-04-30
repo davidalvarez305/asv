@@ -101,4 +101,4 @@ class Login(BaseView):
             login(request, user)
             redirect("/")
         else:
-            return JsonResponse({ 'data': 'Authenticated failed.'}, status=400)
+            return JsonResponse({ 'data': 'Authentication failed.'}, status=400)
