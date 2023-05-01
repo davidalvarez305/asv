@@ -3,10 +3,9 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from asv.models import Truck
+from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
 from asv.utils.upload_file import handle_uploaded_file
 
 class BaseView(View):
@@ -59,33 +58,46 @@ class Upload(LoginRequiredMixin, BaseView):
                 sale_date = row.get('\ufeffSale_Date')
 
             truck = Truck(
-            sale_date=sale_date,
-            vin=row.get('VIN'),
-            saledocumenttype=row.get('SaleDocumentType'),
-            loss_type=row.get('Loss_Type'),
-            damage_description_primary=row.get('Damage_Description_Primary'),
-            starts_at_checkin=row.get('Starts_At_CheckIn'),
-            runs_and_drives=row.get('Runs_And_Drives'),
-            miles=row.get('Miles'),
-            offer=row.get('Offer'),
-            odometerreadingtypedescription=row.get('OdometerReadingTypeDescription'),
-            air_bags_deployed=row.get('Air_Bags_Deployed'),
-            saleprice=row.get('SalePrice'),
-            branch=row.get('Branch'),
-            branch_zip_code=row.get('Branch_Zip_Code'),
-            drivelinetype=row.get('DriveLineType'),
-            year=row.get('Year'),
-            make=row.get('Make'),
-            model=row.get('Model'),
-            trim=row.get('Trim'),
-            bodytype=row.get('BodyType'),
-            cabtype=row.get('CabType'),
-            fueltype=row.get('FuelType'),
-            enginesize=row.get('EngineSize'),
-            data_type=row.get('Data_Type'),
-            stateabbreviation=row.get('StateAbbreviation')
+                vin=row.get('VIN'),
+                data_type=row.get('Data_Type'),
+                offer=row.get('Offer'),
+                vehicle_details = VehicleDetails(
+                    year=row.get('Year'),
+                    make = Make(
+                        row.get('Make')
+                    ),
+                    model = Model(
+                        row.get('Model')
+                    ),
+                    trim = Trim(
+                        row.get('Trim')
+                    ),
+                    bodytype=row.get('BodyType'),
+                    cabtype=row.get('CabType'),
+                    fueltype=row.get('FuelType'),
+                    enginesize=row.get('EngineSize'),
+                    odometerreadingtypedescription=row.get('OdometerReadingTypeDescription'),
+                    drivelinetype=row.get('DriveLineType'),
+                    vehicle_condition = VehicleCondition(
+                        starts_at_checkin=row.get('Starts_At_CheckIn'),
+                        runs_and_drives=row.get('Runs_And_Drives'),
+                        air_bags_deployed=row.get('Air_Bags_Deployed'),
+                        miles=row.get('Miles'),
+                        loss_type=row.get('Loss_Type'),
+                        damage_description_primary=row.get('Damage_Description_Primary'),
+                    ),
+                    sale = Sale(
+                        sale_date=sale_date,
+                        saleprice=row.get('SalePrice'),
+                        saledocumenttype=row.get('SaleDocumentType'),
+                        branch = Branch(
+                                branch=row.get('Branch'),
+                                branch_zip_code=row.get('Branch_Zip_Code'),
+                                stateabbreviation=row.get('StateAbbreviation')
+                            )
+                    ),
+                )
             )
-
             trucks_to_create.append(truck)
 
         Truck.objects.bulk_create(trucks_to_create)
