@@ -57,28 +57,26 @@ class Upload(LoginRequiredMixin, BaseView):
             else:
                 sale_date = row.get('\ufeffSale_Date')
 
+            make = Make.objects.get_or_create(make=row.get('Make'))
+            model = Model.objects.get_or_create(model=row.get('Model'), make=make)
+            trim = Trim.objects.get_or_create(trim=row.get('Trim'), model=model)
+
             truck = Truck(
                 vin=row.get('VIN'),
                 data_type=row.get('Data_Type'),
                 offer=row.get('Offer'),
                 vehicle_details = VehicleDetails(
                     year=row.get('Year'),
-                    make = Make(
-                        row.get('Make')
-                    ),
-                    model = Model(
-                        row.get('Model')
-                    ),
-                    trim = Trim(
-                        row.get('Trim')
-                    ),
+                    make=make,
+                    model = model,
+                    trim = trim,
                     bodytype=row.get('BodyType'),
                     cabtype=row.get('CabType'),
                     fueltype=row.get('FuelType'),
                     enginesize=row.get('EngineSize'),
                     odometerreadingtypedescription=row.get('OdometerReadingTypeDescription'),
                     drivelinetype=row.get('DriveLineType'),
-                    vehicle_condition = VehicleCondition(
+                    vehicle_condition = VehicleCondition.objects.create(
                         starts_at_checkin=row.get('Starts_At_CheckIn'),
                         runs_and_drives=row.get('Runs_And_Drives'),
                         air_bags_deployed=row.get('Air_Bags_Deployed'),
@@ -86,17 +84,17 @@ class Upload(LoginRequiredMixin, BaseView):
                         loss_type=row.get('Loss_Type'),
                         damage_description_primary=row.get('Damage_Description_Primary'),
                     ),
-                    sale = Sale(
-                        sale_date=sale_date,
-                        saleprice=row.get('SalePrice'),
-                        saledocumenttype=row.get('SaleDocumentType'),
-                        branch = Branch(
-                                branch=row.get('Branch'),
-                                branch_zip_code=row.get('Branch_Zip_Code'),
-                                stateabbreviation=row.get('StateAbbreviation')
-                            )
-                    ),
-                )
+                ),
+                sale = Sale.objects.create(
+                    sale_date=sale_date,
+                    saleprice=row.get('SalePrice'),
+                    saledocumenttype=row.get('SaleDocumentType'),
+                    branch = Branch.objects.create(
+                        branch=row.get('Branch'),
+                        branch_zip_code=row.get('Branch_Zip_Code'),
+                        stateabbreviation=row.get('StateAbbreviation')
+                    )
+                ),
             )
             trucks_to_create.append(truck)
 

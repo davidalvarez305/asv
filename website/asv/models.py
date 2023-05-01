@@ -30,14 +30,14 @@ class VehicleCondition(models.Model):
 
 class Make(models.Model):
     id = models.BigAutoField(primary_key=True)
-    make = models.CharField(max_length=255)
+    make = models.CharField(max_length=255, unique=True, db_index=True)
 
     def __str__(self):
         return self.make
 
 class Model(models.Model):
     id = models.BigAutoField(primary_key=True)
-    model = models.CharField(max_length=255)
+    model = models.CharField(max_length=255, unique=True, db_index=True)
     make = models.ForeignKey(Make, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -45,7 +45,7 @@ class Model(models.Model):
 
 class Trim(models.Model):
     id = models.BigAutoField(primary_key=True)
-    trim = models.CharField(max_length=255)
+    trim = models.CharField(max_length=255, unique=True, db_index=True)
     model = models.ForeignKey(Model, on_delete=models.CASCADE)
 
     def __str__(self):
