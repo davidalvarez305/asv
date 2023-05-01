@@ -26,7 +26,42 @@ class BaseView(View):
 class HomeView(LoginRequiredMixin, BaseView):
     login_url="/login"
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+
+        years = VehicleDetails.objects.distinct("year").values("year")
+        cabtypes = VehicleDetails.objects.distinct("cabtype").values("cabtype")
+        fueltypes = VehicleDetails.objects.distinct("fueltype").values("fueltype")
+        enginesizes = VehicleDetails.objects.distinct("enginesize").values("enginesize")
+        odometerreadingtypedescriptions = VehicleDetails.objects.distinct("odometerreadingtypedescription").values("odometerreadingtypedescription")
+        drivelinetypes = VehicleDetails.objects.distinct("drivelinetype").values("drivelinetype")
+
+        makes = Make.objects.values("id", "make")
+        models = Model.objects.values("id", "model")
+        trims = Trim.objects.values("id", "trim")
+
+        yes_or_no = ["Yes", "No"]
+        starts_at_check_in = ["Yes", "No", "N/A"]
+        runs_and_drives = yes_or_no
+        air_bags_deployed = yes_or_no
+        damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").values("damage_description_primary")
+        loss_types = VehicleCondition.objects.distinct("loss_type").values("loss_type")
+
+        context = {}
+        context["makes"] = makes
+        context["models"] = models
+        context["trims"] = trims
+        context["years"] = years
+        context["cabtypes"] = cabtypes
+        context["fueltypes"] = fueltypes
+        context["enginesizes"] = enginesizes
+        context["odometerreadingtypedescriptions"] = odometerreadingtypedescriptions
+        context["drivelinetypes"] = drivelinetypes
+        context["starts_at_check_in"] = starts_at_check_in
+        context["runs_and_drives"] = runs_and_drives
+        context["air_bags_deployed"] = air_bags_deployed
+        context["damage_description_primarys"] = damage_description_primarys
+        context["loss_types"] = loss_types
+
+        return render(request, self.template_name, context=context)
     
 class Trucks(LoginRequiredMixin, BaseView):
     login_url="/login"

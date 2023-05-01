@@ -56,72 +56,144 @@
           <form class="space-y-6" id="filter-trucks-form">
             <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="year">year</label>
+                    <label class="font-medium" for="year">Year</label>
                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="year" name="year">
                      <option value=""></option>
-                     <option value="2015">2015</option>
-                       <option value="2016">2016</option>
-                       <option value="2017">2017</option>
-                       <option value="2018">2018</option>
+                     {% for year in years %}
+                        <option value="{{ year.year }}">{{ year.year }}</option>
+                     {% endfor %}
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="make">make</label>
+                    <label class="font-medium" for="make">Make</label>
                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="make" name="make">
                        <option value=""></option>
-                       <option value="Honda">Honda</option>
-                       <option value="Toyota">Toyota</option>
-                       <option value="Audi">Audi</option>
-                       <option value="bmw">bmw</option>
+                       {% for make in makes %}
+                        <option value="{{ make.id }}">{{ make.make }}</option>
+                       {% endfor %}
                     </select>
                 </div>
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="model">model</label>
+                    <label class="font-medium" for="model">Model</label>
                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="model" name="model">
-                       <option value=""></option>
-                       <option value="Civic">Civic</option>
-                       <option value="Accord">Accord</option>
-                       <option value="Corolla">Corolla</option>
-                       <option value="Camry">Camry</option>
+                        <option value=""></option>
+                        {% for model in models %}
+                           <option value="{{ model.id }}">{{ model.model }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="service">Service</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
-                       <option value=""></option>
-                    </select>
-                </div>
+                  <label class="font-medium" for="trim">Trim</label>
+                  <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="trim" name="trim">
+                      <option value=""></option>
+                      {% for trim in trims %}
+                         <option value="{{ trim.id }}">{{ trim.trim }}</option>
+                      {% endfor %}
+                  </select>
+               </div>
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                  <div class="space-y-1 grow">
-                     <label class="font-medium" for="service">Service</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
+                     <label class="font-medium" for="cabtype">Cab Type</label>
+                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="cabtype" name="cabtype">
                         <option value=""></option>
+                        {% for cabtype in cabtypes %}
+                           <option value="{{ cabtype.cabtype }}">{{ cabtype.cabtype }}</option>
+                        {% endfor %}
                      </select>
                  </div>
                  <div class="space-y-1 grow">
-                     <label class="font-medium" for="service">Service</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
+                     <label class="font-medium" for="fueltype">Fuel Type</label>
+                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="fueltype" name="fueltype">
                         <option value=""></option>
+                        {% for fueltype in fueltypes %}
+                           <option value="{{ fueltype.fueltype }}">{{ fueltype.fueltype }}</option>
+                        {% endfor %}
                      </select>
-                 </div>
+                  </div>
               </div>
               <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
-                 <div class="space-y-1 grow">
-                     <label class="font-medium" for="service">Service</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
+               <div class="space-y-1 grow">
+                   <label class="font-medium" for="enginesize">Engine Size</label>
+                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="enginesize" name="enginesize">
+                      <option value=""></option>
+                      {% for enginesize in enginesizes %}
+                         <option value="{{ enginesize.enginesize }}">{{ enginesize.enginesize }}</option>
+                      {% endfor %}
+                   </select>
+               </div>
+               <div class="space-y-1 grow">
+                   <label class="font-medium" for="odometerreadingtypedescription">Odometer Reading Descr.</label>
+                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="odometerreadingtypedescription" name="odometerreadingtypedescription">
+                      <option value=""></option>
+                      {% for odometerreadingtypedescription in odometerreadingtypedescriptions %}
+                         <option value="{{ odometerreadingtypedescription.odometerreadingtypedescription }}">{{ odometerreadingtypedescription.odometerreadingtypedescription }}</option>
+                      {% endfor %}
+                   </select>
+                </div>
+               </div>
+               <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+                  <div class="space-y-1 grow">
+                      <label class="font-medium" for="drivelinetype">Drive Line Types</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="drivelinetype" name="drivelinetype">
+                         <option value=""></option>
+                         {% for drivelinetype in drivelinetypes %}
+                            <option value="{{ drivelinetype.drivelinetype }}">{{ drivelinetype.drivelinetype }}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+                  <div class="space-y-1 grow">
+                      <label class="font-medium" for="starts_at_check_in">Starts At Check In</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="starts_at_check_in" name="starts_at_check_in">
+                         <option value=""></option>
+                         {% for option in starts_at_check_in %}
+                            <option value="{{ option }}">{{ option }}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+               </div>
+               <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+                  <div class="space-y-1 grow">
+                      <label class="font-medium" for="runs_and_drives">Runs & Drives</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="runs_and_drives" name="runs_and_drives">
+                         <option value=""></option>
+                         {% for option in runs_and_drives %}
+                            <option value="{{ option }}">{{ option }}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+                  <div class="space-y-1 grow">
+                      <label class="font-medium" for="air_bags_deployed">Air Bags Deployed</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="air_bags_deployed" name="air_bags_deployed">
+                         <option value=""></option>
+                         {% for option in air_bags_deployed %}
+                            <option value="{{ option }}">{{ option }}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+               </div>
+               <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+                  <div class="space-y-1 grow">
+                      <label class="font-medium" for="damage_description_primarys">Damage Descr. Primary</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="damage_description_primarys" name="damage_description_primarys">
+                         <option value=""></option>
+                         {% for damage_description_primary in damage_description_primarys %}
+                            <option value="{{ damage_description_primary.damage_description_primary }}">{{ damage_description_primary.damage_description_primary }}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+                  <div class="space-y-1 grow">
+                     <label class="font-medium" for="loss_type">Loss Types</label>
+                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="loss_type" name="loss_type">
                         <option value=""></option>
+                        {% for loss_type in loss_types %}
+                           <option value="{{ loss_type.loss_type }}">{{ loss_type.loss_type }}</option>
+                        {% endfor %}
                      </select>
                  </div>
-                 <div class="space-y-1 grow">
-                     <label class="font-medium" for="service">Service</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="service" name="service">
-                        <option value=""></option>
-                     </select>
-                 </div>
-              </div>
+               </div>
              <button type="submit" class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-blue-700 bg-blue-700 text-white hover:text-white hover:bg-blue-800 hover:border-blue-800 focus:ring focus:ring-blue-500 focus:ring-opacity-50 active:bg-blue-700 active:border-blue-700">
              Submit
              </button>
