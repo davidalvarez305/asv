@@ -1,19 +1,19 @@
 from django.db import models
 
 DATA_TYPE_CHOICES = [
-    "Insurance",
-    "Non-Insurance"
+    ("Insurance", "Insurance"),
+    ("Non-Insurance", "Non-Insurance")
 ]
 
 STARTS_AT_CHECK_IN_CHOICES = [
-    "Yes",
-    "No",
-    "N/A"
+    ("Yes", "Yes"),
+    ("No", "No"),
+    ("N/A", "N/A")
 ]
 
 YES_NO_CHOICES = [
-    "No",
-    "Yes"
+    ("No", "No"),
+    ("Yes", "Yes")
 ]
 
 class VehicleCondition(models.Model):
@@ -63,7 +63,7 @@ class VehicleDetails(models.Model):
     enginesize = models.CharField(max_length=255, null=True)
     odometerreadingtypedescription = models.TextField()
     drivelinetype = models.CharField(max_length=255, null=True)
-    vehicle_condition = models.ForeignKey(VehicleCondition, on_delete=models.SET_NULL, db_index=True)
+    vehicle_condition = models.ForeignKey(VehicleCondition, on_delete=models.SET_NULL, null=True, db_index=True)
 
     def __str__(self):
         return self.year + self.make + self.model + self.trim
@@ -72,6 +72,7 @@ class Branch(models.Model):
     id = models.BigAutoField(primary_key=True)
     branch = models.CharField(max_length=255, null=True)
     branch_zip_code = models.CharField(max_length=255, null=True)
+    stateabbreviation = models.CharField(max_length=2)
 
     def __str__(self):
         return self.branch
@@ -81,15 +82,18 @@ class Sale(models.Model):
     saledocumenttype = models.CharField(max_length=255, null=True)
     saleprice = models.CharField(max_length=255, null=True)
     sale_date = models.CharField(max_length=255)
-    offer = models.CharField(max_length=255, null=True)
-    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, db_index=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, db_index=True)
+
+    def __str__(self):
+        return self.id
 
 class Truck(models.Model):
     id = models.BigAutoField(primary_key=True)
     vin = models.CharField(max_length=255)
-    stateabbreviation = models.CharField(max_length=5)
     data_type = models.CharField(max_length=255, null=True, choices=DATA_TYPE_CHOICES)
-    sale = models.ForeignKey(Sale, on_delete=models.SET_NULL, db_index=True)
+    offer = models.CharField(max_length=255, null=True)
+    sale = models.ForeignKey(Sale, on_delete=models.SET_NULL, null=True, db_index=True)
+    vehicle_details = models.ForeignKey(VehicleDetails, on_delete=models.SET_NULL, null=True, db_index=True)
 
     def __str__(self):
         return self.vin
