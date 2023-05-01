@@ -52,14 +52,22 @@ class Upload(LoginRequiredMixin, BaseView):
 
         for row in data:
             sale_date = ""
+            trim = None
+
             if not '\ufeffSale_Date' in row:
                 sale_date = row.get('Sale_Date')
             else:
                 sale_date = row.get('\ufeffSale_Date')
 
-            make = Make.objects.get_or_create(make=row.get('Make'))
-            model = Model.objects.get_or_create(model=row.get('Model'), make=make)
-            trim = Trim.objects.get_or_create(trim=row.get('Trim'), model=model)
+            make = Make.objects.get_or_create(make=row.get('Make'))[0]
+            model = Model.objects.get_or_create(model=row.get('Model'))[0]
+            model.make.add(make)
+            model.save()
+           
+            if row.get('Trim') is not None:
+                trim = Trim.objects.get_or_create(trim=row.get('Trim'))[0]
+                trim.model.add(model)
+                trim.save()
 
             truck = Truck(
                 vin=row.get('VIN'),
