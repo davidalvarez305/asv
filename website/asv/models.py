@@ -1,32 +1,95 @@
 from django.db import models
 
-class Truck(models.Model):
+DATA_TYPE_CHOICES = [
+    "Insurance",
+    "Non-Insurance"
+]
+
+STARTS_AT_CHECK_IN_CHOICES = [
+    "Yes",
+    "No",
+    "N/A"
+]
+
+YES_NO_CHOICES = [
+    "No",
+    "Yes"
+]
+
+class VehicleCondition(models.Model):
     id = models.BigAutoField(primary_key=True)
-    sale_date = models.CharField(max_length=255)
-    vin = models.CharField(max_length=255)
-    saledocumenttype = models.CharField(max_length=255, null=True)
-    loss_type = models.CharField(max_length=255, null=True)
-    damage_description_primary = models.CharField(max_length=255, null=True)
-    starts_at_checkin = models.CharField(max_length=255, null=True)
-    runs_and_drives = models.CharField(max_length=255, null=True)
+    starts_at_checkin = models.CharField(max_length=255, null=True, choices=STARTS_AT_CHECK_IN_CHOICES)
+    runs_and_drives = models.CharField(max_length=255, null=True, choices=YES_NO_CHOICES)
+    air_bags_deployed = models.CharField(max_length=255, null=True, choices=YES_NO_CHOICES)
     miles = models.CharField(max_length=255, null=True)
-    offer = models.CharField(max_length=255, null=True)
-    odometerreadingtypedescription = models.TextField()
-    air_bags_deployed = models.CharField(max_length=255, null=True)
-    saleprice = models.CharField(max_length=255, null=True)
-    branch = models.CharField(max_length=255, null=True)
-    branch_zip_code = models.CharField(max_length=255, null=True)
-    drivelinetype = models.CharField(max_length=255, null=True)
-    year = models.CharField(max_length=255)
+    damage_description_primary = models.CharField(max_length=255, null=True)
+    loss_type = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.id
+
+class Make(models.Model):
+    id = models.BigAutoField(primary_key=True)
     make = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.make
+
+class Model(models.Model):
+    id = models.BigAutoField(primary_key=True)
     model = models.CharField(max_length=255)
-    trim = models.CharField(max_length=255, null=True)
+    make = models.ForeignKey(Make, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.model
+
+class Trim(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    trim = models.CharField(max_length=255)
+    model = models.ForeignKey(Model, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.trim
+
+class VehicleDetails(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    year = models.CharField(max_length=255)
+    make = models.ForeignKey(Make, on_delete=models.CASCADE)
+    model = models.ForeignKey(Model, on_delete=models.CASCADE)
+    trim = models.ForeignKey(Trim, on_delete=models.CASCADE)
     bodytype = models.CharField(max_length=255, null=True)
     cabtype = models.CharField(max_length=255, null=True)
     fueltype = models.CharField(max_length=255, null=True)
     enginesize = models.CharField(max_length=255, null=True)
-    data_type = models.CharField(max_length=255, null=True)
-    stateabbreviation = models.CharField(max_length=5)
+    odometerreadingtypedescription = models.TextField()
+    drivelinetype = models.CharField(max_length=255, null=True)
+    vehicle_condition = models.ForeignKey(VehicleCondition, on_delete=models.SET_NULL, db_index=True)
 
     def __str__(self):
         return self.year + self.make + self.model + self.trim
+
+class Branch(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    branch = models.CharField(max_length=255, null=True)
+    branch_zip_code = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.branch
+
+class Sale(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    saledocumenttype = models.CharField(max_length=255, null=True)
+    saleprice = models.CharField(max_length=255, null=True)
+    sale_date = models.CharField(max_length=255)
+    offer = models.CharField(max_length=255, null=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, db_index=True)
+
+class Truck(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    vin = models.CharField(max_length=255)
+    stateabbreviation = models.CharField(max_length=5)
+    data_type = models.CharField(max_length=255, null=True, choices=DATA_TYPE_CHOICES)
+    sale = models.ForeignKey(Sale, on_delete=models.SET_NULL, db_index=True)
+
+    def __str__(self):
+        return self.vin
