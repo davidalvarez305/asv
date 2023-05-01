@@ -26,7 +26,7 @@ form.addEventListener("submit", function (e) {
   let values = {};
   const entry = Object.fromEntries(new FormData(e.target));
   for (const [key, value] of Object.entries(entry)) {
-    if (value.length > 0) values[key] = value.toUpperCase();
+    if (value.length > 0) values[key] = value;
   }
   const data = new URLSearchParams(values);
 

@@ -39,7 +39,7 @@ class HomeView(LoginRequiredMixin, BaseView):
         trims = Trim.objects.values("id", "trim")
 
         yes_or_no = ["Yes", "No"]
-        starts_at_check_in = ["Yes", "No", "N/A"]
+        starts_at_checkin = ["Yes", "No", "N/A"]
         runs_and_drives = yes_or_no
         air_bags_deployed = yes_or_no
         damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").values("damage_description_primary")
@@ -55,7 +55,7 @@ class HomeView(LoginRequiredMixin, BaseView):
         context["enginesizes"] = enginesizes
         context["odometerreadingtypedescriptions"] = odometerreadingtypedescriptions
         context["drivelinetypes"] = drivelinetypes
-        context["starts_at_check_in"] = starts_at_check_in
+        context["starts_at_checkin"] = starts_at_checkin
         context["runs_and_drives"] = runs_and_drives
         context["air_bags_deployed"] = air_bags_deployed
         context["damage_description_primarys"] = damage_description_primarys

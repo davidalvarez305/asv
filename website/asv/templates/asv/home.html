@@ -56,8 +56,8 @@
           <form class="space-y-6" id="filter-trucks-form">
             <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="year">Year</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="year" name="year">
+                    <label class="font-medium" for="vehicle_details__year">Year</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__year" name="vehicle_details__year">
                      <option value=""></option>
                      {% for year in years %}
                         <option value="{{ year.year }}">{{ year.year }}</option>
@@ -65,8 +65,8 @@
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="make">Make</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="make" name="make">
+                    <label class="font-medium" for="vehicle_details__make_id">Make</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__make_id" name="vehicle_details__make_id">
                        <option value=""></option>
                        {% for make in makes %}
                         <option value="{{ make.id }}">{{ make.make }}</option>
@@ -76,8 +76,8 @@
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="model">Model</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="model" name="model">
+                    <label class="font-medium" for="vehicle_details__model_id">Model</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__model_id" name="vehicle_details__model_id">
                         <option value=""></option>
                         {% for model in models %}
                            <option value="{{ model.id }}">{{ model.model }}</option>
@@ -85,8 +85,8 @@
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                  <label class="font-medium" for="trim">Trim</label>
-                  <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="trim" name="trim">
+                  <label class="font-medium" for="vehicle_details__trim_id">Trim</label>
+                  <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__trim_id" name="vehicle_details__trim_id">
                       <option value=""></option>
                       {% for trim in trims %}
                          <option value="{{ trim.id }}">{{ trim.trim }}</option>
@@ -96,8 +96,8 @@
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                  <div class="space-y-1 grow">
-                     <label class="font-medium" for="cabtype">Cab Type</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="cabtype" name="cabtype">
+                     <label class="font-medium" for="vehicle_details__cabtype">Cab Type</label>
+                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__cabtype" name="vehicle_details__cabtype">
                         <option value=""></option>
                         {% for cabtype in cabtypes %}
                            <option value="{{ cabtype.cabtype }}">{{ cabtype.cabtype }}</option>
@@ -105,8 +105,8 @@
                      </select>
                  </div>
                  <div class="space-y-1 grow">
-                     <label class="font-medium" for="fueltype">Fuel Type</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="fueltype" name="fueltype">
+                     <label class="font-medium" for="vehicle_details__fueltype">Fuel Type</label>
+                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__fueltype" name="vehicle_details__fueltype">
                         <option value=""></option>
                         {% for fueltype in fueltypes %}
                            <option value="{{ fueltype.fueltype }}">{{ fueltype.fueltype }}</option>
@@ -116,8 +116,8 @@
               </div>
               <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                <div class="space-y-1 grow">
-                   <label class="font-medium" for="enginesize">Engine Size</label>
-                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="enginesize" name="enginesize">
+                   <label class="font-medium" for="vehicle_details__enginesize">Engine Size</label>
+                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__enginesize" name="vehicle_details__enginesize">
                       <option value=""></option>
                       {% for enginesize in enginesizes %}
                          <option value="{{ enginesize.enginesize }}">{{ enginesize.enginesize }}</option>
@@ -125,8 +125,8 @@
                    </select>
                </div>
                <div class="space-y-1 grow">
-                   <label class="font-medium" for="odometerreadingtypedescription">Odometer Reading Descr.</label>
-                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="odometerreadingtypedescription" name="odometerreadingtypedescription">
+                   <label class="font-medium" for="vehicle_details__odometerreadingtypedescription">Odometer Reading Descr.</label>
+                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__odometerreadingtypedescription" name="vehicle_details__odometerreadingtypedescription">
                       <option value=""></option>
                       {% for odometerreadingtypedescription in odometerreadingtypedescriptions %}
                          <option value="{{ odometerreadingtypedescription.odometerreadingtypedescription }}">{{ odometerreadingtypedescription.odometerreadingtypedescription }}</option>
@@ -136,8 +136,8 @@
                </div>
                <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                   <div class="space-y-1 grow">
-                      <label class="font-medium" for="drivelinetype">Drive Line Types</label>
-                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="drivelinetype" name="drivelinetype">
+                      <label class="font-medium" for="vehicle_details__drivelinetype">Drive Line Types</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__drivelinetype" name="vehicle_details__drivelinetype">
                          <option value=""></option>
                          {% for drivelinetype in drivelinetypes %}
                             <option value="{{ drivelinetype.drivelinetype }}">{{ drivelinetype.drivelinetype }}</option>
@@ -145,10 +145,10 @@
                       </select>
                   </div>
                   <div class="space-y-1 grow">
-                      <label class="font-medium" for="starts_at_check_in">Starts At Check In</label>
-                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="starts_at_check_in" name="starts_at_check_in">
+                      <label class="font-medium" for="vehicle_details__vehicle_condition__starts_at_checkin">Starts At Check In</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__starts_at_checkin" name="vehicle_details__vehicle_condition__starts_at_checkin">
                          <option value=""></option>
-                         {% for option in starts_at_check_in %}
+                         {% for option in starts_at_checkin %}
                             <option value="{{ option }}">{{ option }}</option>
                          {% endfor %}
                       </select>
@@ -156,8 +156,8 @@
                </div>
                <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                   <div class="space-y-1 grow">
-                      <label class="font-medium" for="runs_and_drives">Runs & Drives</label>
-                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="runs_and_drives" name="runs_and_drives">
+                      <label class="font-medium" for="vehicle_details__vehicle_condition__runs_and_drives">Runs & Drives</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__runs_and_drives" name="vehicle_details__vehicle_condition__runs_and_drives">
                          <option value=""></option>
                          {% for option in runs_and_drives %}
                             <option value="{{ option }}">{{ option }}</option>
@@ -165,8 +165,8 @@
                       </select>
                   </div>
                   <div class="space-y-1 grow">
-                      <label class="font-medium" for="air_bags_deployed">Air Bags Deployed</label>
-                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="air_bags_deployed" name="air_bags_deployed">
+                      <label class="font-medium" for="vehicle_details__vehicle_condition__air_bags_deployed">Air Bags Deployed</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__air_bags_deployed" name="vehicle_details__vehicle_condition__air_bags_deployed">
                          <option value=""></option>
                          {% for option in air_bags_deployed %}
                             <option value="{{ option }}">{{ option }}</option>
@@ -176,8 +176,8 @@
                </div>
                <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                   <div class="space-y-1 grow">
-                      <label class="font-medium" for="damage_description_primarys">Damage Descr. Primary</label>
-                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="damage_description_primarys" name="damage_description_primarys">
+                      <label class="font-medium" for="vehicle_details__vehicle_condition__damage_description_primary">Damage Descr. Primary</label>
+                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__damage_description_primary" name="vehicle_details__vehicle_condition__damage_description_primary">
                          <option value=""></option>
                          {% for damage_description_primary in damage_description_primarys %}
                             <option value="{{ damage_description_primary.damage_description_primary }}">{{ damage_description_primary.damage_description_primary }}</option>
@@ -185,8 +185,8 @@
                       </select>
                   </div>
                   <div class="space-y-1 grow">
-                     <label class="font-medium" for="loss_type">Loss Types</label>
-                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="loss_type" name="loss_type">
+                     <label class="font-medium" for="vehicle_details__vehicle_condition__loss_type">Loss Types</label>
+                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__loss_type" name="vehicle_details__vehicle_condition__loss_type">
                         <option value=""></option>
                         {% for loss_type in loss_types %}
                            <option value="{{ loss_type.loss_type }}">{{ loss_type.loss_type }}</option>
