@@ -4,6 +4,7 @@ from django.views import View
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 
 from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
 from asv.utils.upload_file import handle_uploaded_file
@@ -47,33 +48,30 @@ class Upload(LoginRequiredMixin, BaseView):
         if not ".csv" not in file:
             return HttpResponseBadRequest("CSV Only.")
 
-        trucks_to_create = []
-        data = handle_uploaded_file(file)
+        with transaction.atomic():
+            trucks_to_create = []
+            data = handle_uploaded_file(file)
 
-        for row in data:
-            sale_date = ""
-            trim = None
+            for row in data:
+                sale_date = ""
+                trim = None
 
-            if not '\ufeffSale_Date' in row:
-                sale_date = row.get('Sale_Date')
-            else:
-                sale_date = row.get('\ufeffSale_Date')
+                if not '\ufeffSale_Date' in row:
+                    sale_date = row.get('Sale_Date')
+                else:
+                    sale_date = row.get('\ufeffSale_Date')
 
-            make = Make.objects.get_or_create(make=row.get('Make'))[0]
-            model = Model.objects.get_or_create(model=row.get('Model'))[0]
-            model.make.add(make)
-            model.save()
-           
-            if row.get('Trim') is not None:
-                trim = Trim.objects.get_or_create(trim=row.get('Trim'))[0]
-                trim.model.add(model)
-                trim.save()
-
-            truck = Truck(
-                vin=row.get('VIN'),
-                data_type=row.get('Data_Type'),
-                offer=row.get('Offer'),
-                vehicle_details = VehicleDetails(
+                make = Make.objects.get_or_create(make=row.get('Make'))[0]
+                model = Model.objects.get_or_create(model=row.get('Model'))[0]
+                model.make.add(make)
+                model.save()
+            
+                if row.get('Trim') is not None:
+                    trim = Trim.objects.get_or_create(trim=row.get('Trim'))[0]
+                    trim.model.add(model)
+                    trim.save()
+                
+                vehicle_details = VehicleDetails.objects.create(
                     year=row.get('Year'),
                     make=make,
                     model = model,
@@ -92,21 +90,31 @@ class Upload(LoginRequiredMixin, BaseView):
                         loss_type=row.get('Loss_Type'),
                         damage_description_primary=row.get('Damage_Description_Primary'),
                     ),
-                ),
+                )
+
+                branch = Branch.objects.create(
+                    branch=row.get('Branch'),
+                    branch_zip_code=row.get('Branch_Zip_Code'),
+                    stateabbreviation=row.get('StateAbbreviation')
+                )
+
                 sale = Sale.objects.create(
                     sale_date=sale_date,
                     saleprice=row.get('SalePrice'),
                     saledocumenttype=row.get('SaleDocumentType'),
-                    branch = Branch.objects.create(
-                        branch=row.get('Branch'),
-                        branch_zip_code=row.get('Branch_Zip_Code'),
-                        stateabbreviation=row.get('StateAbbreviation')
-                    )
-                ),
-            )
-            trucks_to_create.append(truck)
+                    branch = branch
+                )
 
-        Truck.objects.bulk_create(trucks_to_create)
+                truck = Truck(
+                    vin=row.get('VIN'),
+                    data_type=row.get('Data_Type'),
+                    offer=row.get('Offer'),
+                    vehicle_details = vehicle_details,
+                    sale = sale,
+                )
+                trucks_to_create.append(truck)
+
+            Truck.objects.bulk_create(trucks_to_create)
         return render(request, self.template_name)
     
 class Login(BaseView):
