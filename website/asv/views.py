@@ -74,7 +74,7 @@ class Trucks(LoginRequiredMixin, BaseView):
                                                                   'vehicle_details__model',
                                                                   'vehicle_details__trim',
                                                                   'vehicle_details__sale__branch'
-                                                                  )
+                                                                  ).all()
         trucks = list(trucks_qs.values())
         return JsonResponse({ 'data': trucks })
     
