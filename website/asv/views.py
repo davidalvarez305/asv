@@ -68,7 +68,8 @@ class Trucks(LoginRequiredMixin, BaseView):
     def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
-        trucks = list(Truck.objects.filter(**params).values())
+        trucks_qs = Truck.objects.filter(**params).prefetch_related()
+        trucks = list(trucks_qs.values())
         return JsonResponse({ 'data': trucks })
     
 class Upload(LoginRequiredMixin, BaseView):
