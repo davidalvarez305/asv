@@ -1,5 +1,4 @@
 from os.path import abspath
-from datetime import date, timedelta
 import datetime as dt
 import csv
 
