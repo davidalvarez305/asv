@@ -34,7 +34,7 @@ export class DynamicFilter {
 
     const keys = Object.keys(data[0]);
     for (let i = 0; i < data.length; i++) {
-        for (n = 0; n < keys.length; n++) {
+        for (let n = 0; n < keys.length; n++) {
             const vals = values[keys[n]] || []
             values[keys[n]] = [...vals, data[i][keys[n]]];
         }
