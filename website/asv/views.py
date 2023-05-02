@@ -68,7 +68,13 @@ class Trucks(LoginRequiredMixin, BaseView):
     def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
-        trucks_qs = Truck.objects.filter(**params).prefetch_related()
+        trucks_qs = Truck.objects.filter(**params).select_related('vehicle_details',
+                                                                  'vehicle_details__vehicle_condition',
+                                                                  'vehicle_details__make',
+                                                                  'vehicle_details__model',
+                                                                  'vehicle_details__trim',
+                                                                  'vehicle_details__sale__branch'
+                                                                  )
         trucks = list(trucks_qs.values())
         return JsonResponse({ 'data': trucks })
     
