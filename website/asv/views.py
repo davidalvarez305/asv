@@ -27,23 +27,23 @@ class HomeView(LoginRequiredMixin, BaseView):
     login_url="/login"
     def get(self, request, *args, **kwargs):
 
-        years = VehicleDetails.objects.distinct("year").values("year")
-        cabtypes = VehicleDetails.objects.distinct("cabtype").values("cabtype")
-        fueltypes = VehicleDetails.objects.distinct("fueltype").values("fueltype")
-        enginesizes = VehicleDetails.objects.distinct("enginesize").values("enginesize")
-        odometerreadingtypedescriptions = VehicleDetails.objects.distinct("odometerreadingtypedescription").values("odometerreadingtypedescription")
-        drivelinetypes = VehicleDetails.objects.distinct("drivelinetype").values("drivelinetype")
+        years = VehicleDetails.objects.distinct("year").order_by("year").values("year")
+        cabtypes = VehicleDetails.objects.distinct("cabtype").order_by("cabtype").values("cabtype")
+        fueltypes = VehicleDetails.objects.distinct("fueltype").order_by("fueltype").values("fueltype")
+        enginesizes = VehicleDetails.objects.distinct("enginesize").order_by("enginesize").values("enginesize")
+        odometerreadingtypedescriptions = VehicleDetails.objects.distinct("odometerreadingtypedescription").order_by("odometerreadingtypedescription").values("odometerreadingtypedescription")
+        drivelinetypes = VehicleDetails.objects.distinct("drivelinetype").order_by("drivelinetype").values("drivelinetype")
 
-        makes = Make.objects.values("id", "make")
-        models = Model.objects.values("id", "model")
-        trims = Trim.objects.values("id", "trim")
+        makes = Make.objects.order_by("make").values("id", "make")
+        models = Model.objects.order_by("model").values("id", "model")
+        trims = Trim.objects.order_by("trim").values("id", "trim")
 
         yes_or_no = ["Yes", "No"]
         starts_at_checkin = ["Yes", "No", "N/A"]
         runs_and_drives = yes_or_no
         air_bags_deployed = yes_or_no
-        damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").values("damage_description_primary")
-        loss_types = VehicleCondition.objects.distinct("loss_type").values("loss_type")
+        damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").order_by("damage_description_primary").values("damage_description_primary")
+        loss_types = VehicleCondition.objects.distinct("loss_type").order_by("loss_type").values("loss_type")
 
         context = {}
         context["makes"] = makes
@@ -135,13 +135,13 @@ class Upload(LoginRequiredMixin, BaseView):
                 else:
                     sale_date = row.get('\ufeffSale_Date')
 
-                make = Make.objects.get_or_create(make=row.get('Make'))[0]
-                model = Model.objects.get_or_create(model=row.get('Model'))[0]
+                make = Make.objects.get_or_create(make=str(row.get('Make')).strip())[0]
+                model = Model.objects.get_or_create(model=str(row.get('Model')).strip())[0]
                 model.make.add(make)
                 model.save()
             
                 if row.get('Trim') is not None:
-                    trim = Trim.objects.get_or_create(trim=row.get('Trim'))[0]
+                    trim = Trim.objects.get_or_create(trim=row.get('Trim').strip())[0]
                     trim.model.add(model)
                     trim.save()
                 

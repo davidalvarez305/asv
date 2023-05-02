@@ -88,8 +88,8 @@ function calculateAverage(data) {
 
 function createTable() {
   const rowClass = "border-b border-gray-100 dark:border-gray-700/50";
-  const cellClass = "p-3";
-  const pClass = "text-gray-500 dark:text-black-200";
+  const cellClass = "p-3 text-lg text-center";
+  const pClass = "text-black-100 dark:text-black-200";
   const tableBody = document.getElementById("data-table-body");
   const tableHeadingRow = document.getElementById("data-table-heading-row");
 
@@ -98,8 +98,7 @@ function createTable() {
   // Create headers
   for (let i = 0; i < headers.length; i++) {
     const heading = document.createElement("th");
-    heading.className =
-      "px-3 py-4 text-gray-900 bg-gray-100/75 font-semibold text-left dark:text-gray-50 dark:bg-gray-700/25";
+    heading.className = "px-3 py-4 text-gray-900 bg-gray-100/75 font-semibold text-left text-2xl dark:text-gray-50 dark:bg-gray-700/25";
     heading.innerHTML = parseHeaderName(headers[i]);
     tableHeadingRow.appendChild(heading);
   }
