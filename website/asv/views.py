@@ -68,14 +68,46 @@ class Trucks(LoginRequiredMixin, BaseView):
     def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
-        trucks_qs = Truck.objects.filter(**params).select_related('vehicle_details',
+        trucks_qs = Truck.objects.select_related('vehicle_details',
                                                                   'vehicle_details__vehicle_condition',
                                                                   'vehicle_details__make',
                                                                   'vehicle_details__model',
                                                                   'vehicle_details__trim',
-                                                                  'vehicle_details__sale__branch'
-                                                                  ).all()
-        trucks = list(trucks_qs.values())
+                                                                  'sale__branch'
+                                                                  ).filter(**params)
+        trucks = []
+
+        for truck in trucks_qs:
+            data = {
+                "id": truck.id,
+                "sale_date": truck.sale.sale_date,
+                "vin": truck.vin,
+                "saledocumenttype": truck.sale.saledocumenttype,
+                "loss_type": truck.vehicle_details.vehicle_condition.loss_type,
+                "damage_description_primary": truck.vehicle_details.vehicle_condition.damage_description_primary,
+                "starts_at_checkin": truck.vehicle_details.vehicle_condition.starts_at_checkin,
+                "runs_and_drives": truck.vehicle_details.vehicle_condition.runs_and_drives,
+                "miles": truck.vehicle_details.vehicle_condition.miles,
+                "offer": truck.offer,
+                "odometerreadingtypedescription": truck.vehicle_details.odometerreadingtypedescription,
+                "air_bags_deployed": truck.vehicle_details.vehicle_condition.air_bags_deployed,
+                "saleprice": truck.sale.saleprice,
+                "branch": truck.sale.branch.branch,
+                "branch_zip_code": truck.sale.branch.branch_zip_code,
+                "drivelinetype": truck.vehicle_details.drivelinetype,
+                "year": truck.vehicle_details.year,
+                "make": truck.vehicle_details.make.make,
+                "model": truck.vehicle_details.model.model,
+                "trim": truck.vehicle_details.trim.trim,
+                "bodytype": truck.vehicle_details.bodytype,
+                "cabtype": truck.vehicle_details.cabtype,
+                "fueltype": truck.vehicle_details.fueltype,
+                "enginesize": truck.vehicle_details.enginesize,
+                "data_type": truck.data_type,
+                "stateabbreviation": truck.sale.branch.stateabbreviation,
+            }
+            trucks.append(data)
+        
         return JsonResponse({ 'data': trucks })
     
 class Upload(LoginRequiredMixin, BaseView):
