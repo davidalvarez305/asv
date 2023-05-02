@@ -80,7 +80,7 @@ class Upload(LoginRequiredMixin, BaseView):
     def post(self, request, *args, **kwargs):
         file = request.FILES["upload_file"]
 
-        if not ".csv" not in file:
+        if not file.endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
 
         with transaction.atomic():
