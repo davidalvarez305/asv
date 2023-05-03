@@ -42,10 +42,9 @@ export class DynamicFilter {
 
     for (const [key, value] of Object.entries(values)) {
       this.formInputs.currentInputs[key] = value;
-      const options = this.createOptionsFactory(value);
+      const options = this.createOptionsFactory([...new Set(value)]);
       const htmlKey = HTML_DICTIONARY[key];
       const el = document.getElementById(`${htmlKey}`);
-
       if (el) el.replaceChildren(...options);
     }
   }
