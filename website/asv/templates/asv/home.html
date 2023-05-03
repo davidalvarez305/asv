@@ -65,31 +65,31 @@
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="vehicle_details__make_id">Make</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__make_id" name="vehicle_details__make_id">
+                    <label class="font-medium" for="vehicle_details__make__make">Make</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__make__make" name="vehicle_details__make__make">
                        <option value=""></option>
                        {% for make in makes %}
-                        <option value="{{ make.id }}">{{ make.make }}</option>
+                        <option value="{{ make.make }}">{{ make.make }}</option>
                        {% endfor %}
                     </select>
                 </div>
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="vehicle_details__model_id">Model</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__model_id" name="vehicle_details__model_id">
+                    <label class="font-medium" for="vehicle_details__model__model">Model</label>
+                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__model__model" name="vehicle_details__model__model">
                         <option value=""></option>
                         {% for model in models %}
-                           <option value="{{ model.id }}">{{ model.model }}</option>
+                           <option value="{{ model.model }}">{{ model.model }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="space-y-1 grow">
-                  <label class="font-medium" for="vehicle_details__trim_id">Trim</label>
-                  <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__trim_id" name="vehicle_details__trim_id">
+                  <label class="font-medium" for="vehicle_details__trim__trim">Trim</label>
+                  <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__trim__trim" name="vehicle_details__trim__trim">
                       <option value=""></option>
                       {% for trim in trims %}
-                         <option value="{{ trim.id }}">{{ trim.trim }}</option>
+                         <option value="{{ trim.trim }}">{{ trim.trim }}</option>
                       {% endfor %}
                   </select>
                </div>

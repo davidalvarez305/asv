@@ -42,7 +42,9 @@ export class DynamicFilter {
 
     for (const [key, value] of Object.entries(values)) {
       this.formInputs.currentInputs[key] = value;
-      const options = this.createOptionsFactory(["", ...new Set(value)]);
+      const valueSet = new Set(value);
+      const inputs = valueSet.size <= 1 ? [...value] : ["", ...valueSet];
+      const options = this.createOptionsFactory(inputs);
       const htmlKey = HTML_DICTIONARY[key];
       const el = document.getElementById(`${htmlKey}`);
       if (el) el.replaceChildren(...options);
@@ -86,9 +88,9 @@ export async function onChangeSelect(e) {
 
 const HTML_DICTIONARY = {
   year: "vehicle_details__year",
-  make: "vehicle_details__make_id",
-  model: "vehicle_details__model_id",
-  trim: "vehicle_details__trim_id",
+  make: "vehicle_details__make__make",
+  model: "vehicle_details__model__model",
+  trim: "vehicle_details__trim__trim",
   cabtype: "vehicle_details__cabtype",
   fueltype: "vehicle_details__fueltype",
   enginesize: "vehicle_details__enginesize",
