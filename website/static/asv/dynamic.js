@@ -63,8 +63,7 @@ export class DynamicFilter {
 
 export async function onChangeSelect(e) {
   let values = {};
-  const form = document.getElementById("filter-trucks-form");
-  const entry = Object.fromEntries(new FormData(form));
+  const entry = Object.fromEntries(new FormData(this));
   for (const [key, value] of Object.entries(entry)) {
     if (value.length > 0) values[key] = value;
   }
@@ -79,7 +78,7 @@ export async function onChangeSelect(e) {
       credentials: "include",
     });
     const { data } = await response.json();
-    this.changeFilters(data);
+    this.filter.changeFilters(data);
   } catch (err) {
     console.error(err);
   }

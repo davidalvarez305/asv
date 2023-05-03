@@ -21,7 +21,7 @@ const filteredVehiclesAverage = document.getElementById("filtered-vehicles-avera
 const filteredVehiclesToggle = document.getElementById("filtered-vehicles-toggle");
 
 // Dynamic Filters
-const filter = new DynamicFilter();
+var filter = new DynamicFilter();
 const resetButton = document.getElementById("reset-filters-button");
 
 resetButton.addEventListener('click', function() {
@@ -30,6 +30,7 @@ resetButton.addEventListener('click', function() {
 
 // Form Selects
 form.onchange = onChangeSelect;
+form.filter = filter;
 
 window.filteredVehiclesData = [];
 
