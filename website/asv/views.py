@@ -122,10 +122,11 @@ class Upload(LoginRequiredMixin, BaseView):
         if not file.endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
 
-        with transaction.atomic():
-            trucks_to_create = []
-            data = handle_uploaded_file(file)
+        data = handle_uploaded_file(file)
 
+        transaction.set_autocommit(False)
+
+        try:
             for row in data:
                 sale_date = ""
                 trim = None
@@ -186,9 +187,17 @@ class Upload(LoginRequiredMixin, BaseView):
                     vehicle_details = vehicle_details,
                     sale = sale,
                 )
-                trucks_to_create.append(truck)
+                
+                Truck.objects.save(truck)
+            transaction.commit()
 
-            Truck.objects.bulk_create(trucks_to_create)
+        except Exception as e:
+            transaction.rollback()
+            raise e
+
+        finally:
+            transaction.set_autocommit(True)
+
         return render(request, self.template_name)
     
 class Login(BaseView):
