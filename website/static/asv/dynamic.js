@@ -43,7 +43,8 @@ export class DynamicFilter {
     for (const [key, value] of Object.entries(values)) {
       this.formInputs.currentInputs[key] = value;
       const options = this.createOptionsFactory(value);
-      const el = document.getElementById(`${key}`);
+      const htmlKey = HTML_DICTIONARY[key];
+      const el = document.getElementById(`${htmlKey}`);
 
       if (el) el.replaceChildren(...options);
     }
@@ -83,3 +84,20 @@ export async function onChangeSelect(e) {
     console.error(err);
   }
 }
+
+const HTML_DICTIONARY = {
+  year: "vehicle_details__year",
+  make: "vehicle_details__make_id",
+  model: "vehicle_details__model_id",
+  trim: "vehicle_details__trim_id",
+  cabtype: "vehicle_details__cabtype",
+  fueltype: "vehicle_details__fueltype",
+  enginesize: "vehicle_details__enginesize",
+  odometerreadingdescription: "vehicle_details__odometerreadingtypedescription",
+  drivelinetype: "vehicle_details__drivelinetype",
+  starts_at_checkin: "vehicle_details__vehicle_condition__starts_at_checkin",
+  runs_and_drives: "vehicle_details__vehicle_condition__runs_and_drives",
+  air_bags_deployed: "vehicle_details__vehicle_condition__air_bags_deployed",
+  damage_description_primary: "vehicle_details__vehicle_condition__damage_description_primary",
+  loss_type: "vehicle_details__vehicle_condition__loss_type",
+};
