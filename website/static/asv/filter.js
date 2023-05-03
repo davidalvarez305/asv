@@ -1,7 +1,6 @@
-import { DynamicFilter, onChangeSelect } from "./dynamic";
+import { DynamicFilter, onChangeSelect } from "./dynamic.js";
 
 const form = document.getElementById("filter-trucks-form");
-const filter = new DynamicFilter();
 
 // Home Cards
 const counter = document.getElementById("data-counter");
@@ -20,6 +19,14 @@ const filteredVehiclesCounter = document.getElementById("filtered-vehicles-count
 const filteredVehiclesAverageContainer = document.getElementById("filtered-vehicles-average-container");
 const filteredVehiclesAverage = document.getElementById("filtered-vehicles-average");
 const filteredVehiclesToggle = document.getElementById("filtered-vehicles-toggle");
+
+// Dynamic Filters
+const filter = new DynamicFilter();
+const resetButton = document.getElementById("reset-filters-button");
+
+resetButton.addEventListener('click', function() {
+	filter.resetFilters();
+});
 
 // Form Selects
 form.onchange = onChangeSelect;

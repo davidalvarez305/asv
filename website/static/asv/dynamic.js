@@ -3,15 +3,19 @@ export class DynamicFilter {
     originalInputs: {},
     currentInputs: {},
   };
+  form = null;
   constructor() {
     const form = document.getElementById("filter-trucks-form");
+    this.form = form;
 
     const values = Object.fromEntries(new FormData(form));
+    const keys = Object.keys(values);
 
-    for (let i = 0; i < Object.keys(values).length; i++) {
-      const select = document.getElementById(`${values[i]}`);
-      const options = select.options.map((option) => option.innerHTML);
-      this.formInputs.originalInputs[values[i]] = options;
+    for (let i = 0; i < keys.length; i++) {
+      const select = document.getElementById(`${keys[i]}`);
+      const children = Object.values(select.options);
+      const options = children.map((option) => option.innerHTML);
+      this.formInputs.originalInputs[keys[i]] = options;
     }
   }
 
@@ -45,7 +49,7 @@ export class DynamicFilter {
     }
   }
 
-  static createOptionsFactory(inputs) {
+  createOptionsFactory(inputs) {
     let elements = [];
     for (let i = 0; i < inputs.length; i++) {
       const el = document.createElement("option");
@@ -57,23 +61,26 @@ export class DynamicFilter {
   }
 }
 
-export function onChangeSelect(e) {
+export async function onChangeSelect(e) {
   let values = {};
-  const entry = Object.fromEntries(new FormData(e.target));
+  const form = document.getElementById("filter-trucks-form");
+  const entry = Object.fromEntries(new FormData(form));
   for (const [key, value] of Object.entries(entry)) {
     if (value.length > 0) values[key] = value;
   }
-  const data = new URLSearchParams(values);
+  const params = new URLSearchParams(values);
 
-  fetch("/trucks?" + data.toString(), {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "GET",
-    credentials: "include",
-  })
-    .then((resp) => resp.json())
-    .then(({ data }) => {
-      filters.changeFilters(data);
+  try {
+    const response = await fetch("/trucks?" + params.toString(), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+      credentials: "include",
     });
+    const { data } = await response.json();
+    this.changeFilters(data);
+  } catch (err) {
+    console.error(err);
+  }
 }
