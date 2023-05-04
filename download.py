@@ -3,7 +3,7 @@ import datetime as dt
 import paramiko
 import os
 from dotenv import load_dotenv
-import boto3
+from website.asv.utils.upload_to_s3 import upload_to_s3
 
 def main():
     load_dotenv()
@@ -20,12 +20,7 @@ def main():
         sftp.get(remotepath=os.environ.get('FTP_PATH'), localpath=LOCAL_PATH)
 
     # Upload File to AWS S3 Bucket
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(os.environ.get('AWS_BUCKET'))
-    bucket.upload_file(LOCAL_PATH, "asv/" + FILE_NAME)
-
-    # Remove Local File
-    os.remove(LOCAL_PATH)
+    upload_to_s3(filename=FILE_NAME, localpath=LOCAL_PATH)
 
 if __name__ == "__main__":
     main()

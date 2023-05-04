@@ -8,6 +8,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
 from asv.utils.upload_file import handle_uploaded_file
 from asv.utils.bulk_insert_data import bulk_insert_data
+from asv.utils.upload_to_s3 import upload_to_s3
+from os.path import abspath
+import datetime as dt
 
 class BaseView(View):
     domain = str(os.environ.get('DJANGO_DOMAIN'))
@@ -122,13 +125,18 @@ class Upload(LoginRequiredMixin, BaseView):
 
         if not file_name.endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
+        
+        updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
+        local_path = abspath('../website/uploads/' + updated_file_name)
 
-        data = handle_uploaded_file(file)
+        data = handle_uploaded_file(f=file, localpath=local_path)
 
         try:
             bulk_insert_data(data)
+            upload_to_s3(filename=updated_file_name, localpath=file)
             return render(request, self.template_name)
         except BaseException:
+            os.remove(local_path)
             return HttpResponseBadRequest("Bulk insert failed")
     
 class Login(BaseView):
