@@ -118,8 +118,9 @@ class Upload(LoginRequiredMixin, BaseView):
     
     def post(self, request, *args, **kwargs):
         file = request.FILES["upload_file"]
+        file_name = str(file)
 
-        if not file.endswith(".csv"):
+        if not file_name.endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
 
         data = handle_uploaded_file(file)
@@ -188,7 +189,7 @@ class Upload(LoginRequiredMixin, BaseView):
                     sale = sale,
                 )
                 
-                Truck.objects.save(truck)
+                truck.save()
             transaction.commit()
 
         except Exception as e:
