@@ -5,12 +5,11 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
+from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim
 from asv.utils.upload_file import handle_uploaded_file
 from asv.utils.bulk_insert_data import bulk_insert_data
 from asv.utils.upload_to_s3 import upload_to_s3
 from os.path import abspath
-import datetime as dt
 
 class BaseView(View):
     domain = str(os.environ.get('DJANGO_DOMAIN'))
