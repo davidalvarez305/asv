@@ -3,5 +3,6 @@ env
 *.sql
 *.csv
 *.conf
+deploy.sh
 node_modules
 __pycache__
