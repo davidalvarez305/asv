@@ -5,7 +5,7 @@ ENV PATH="/scripts:${PATH}"
 ENV PRODUCTION=1
 
 # Set Work Dir
-WORKDIR /django/website/
+WORKDIR /asv/website/
 
 # Install Psycopg2 Dependencies
 RUN apk update \
