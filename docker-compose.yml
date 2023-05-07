@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   website:
-    build: ./website
+    build: .
     restart: always
     depends_on:
       - postgres
@@ -22,7 +22,7 @@ services:
     volumes:
     - data:/var/lib/postgresql/data
     ports:
-      - "5434:5432"
+      - "5432:5432"
 
 volumes:
   data:

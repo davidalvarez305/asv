@@ -3,6 +3,7 @@ env
 *.sql
 *.csv
 *.conf
+uwsgi_params
 deploy.sh
 node_modules
 __pycache__
