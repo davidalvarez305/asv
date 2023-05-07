@@ -2,6 +2,6 @@
 
 set -e
 
-cd && cd /asv/website/
+cd && cd ./website/
 
 uwsgi --ini /etc/django.ini
