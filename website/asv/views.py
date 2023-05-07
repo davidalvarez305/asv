@@ -126,14 +126,14 @@ class Upload(LoginRequiredMixin, BaseView):
         if not file_name.endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
         
-        updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
-        local_path = abspath('../website/uploads/' + updated_file_name)
+        """ updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv') """
+        local_path = abspath('../website/uploads/' + file_name)
 
         data = handle_uploaded_file(f=file, localpath=local_path)
 
         try:
             bulk_insert_data(data)
-            upload_to_s3(filename=updated_file_name, localpath=file)
+            upload_to_s3(filename=file_name, localpath=file)
             return render(request, self.template_name)
         except BaseException:
             os.remove(local_path)
