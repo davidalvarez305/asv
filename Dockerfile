@@ -19,11 +19,11 @@ COPY django.ini /etc/django.ini
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-RUN mkdir -p /vol/django/static
+RUN mkdir -p /vol/asv/static
 
 RUN adduser -D david
 RUN chown -R david:david /vol
-RUN chmod -R 755 /vol/django
+RUN chmod -R 755 /vol/asv
 USER david
 
 COPY ./scripts /scripts
