@@ -32,8 +32,7 @@ DEBUG = str(os.environ.get('PRODUCTION')) == "1"
 
 ALLOWED_HOSTS = [SERVER_IP, DOMAIN]
 
-CSRF_TRUSTED_ORIGINS = [DOMAIN]
-CSRF_COOKIE_DOMAIN = DOMAIN
+CSRF_TRUSTED_ORIGINS = [f"https://{DOMAIN}"]
 
 # Application definition
 
