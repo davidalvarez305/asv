@@ -1,26 +1,53 @@
-from posixpath import abspath
-import datetime as dt
-import paramiko
 import os
 from dotenv import load_dotenv
-from website.asv.utils.upload_to_s3 import upload_to_s3
+import requests
 
 def main():
     load_dotenv()
-    FILE_NAME = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
-    LOCAL_PATH = abspath('./website/uploads/' + FILE_NAME)
 
-    # Download File From FTP
-    with paramiko.SSHClient() as ssh:
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(os.environ.get('FTP_HOST'), username=os.environ.get('FTP_USERNAME'), password=os.environ.get('FTP_PASSWORD'))
-    
-        sftp = ssh.open_sftp()
+    # Define the login URL and credentials
+    login_url = f"https://{os.environ.get('DJANGO_DOMAIN')}/login"
+    username = os.environ.get('SECRET_LOGIN')
+    password = os.environ.get('SECRET_PASSWORD')
 
-        sftp.get(remotepath=os.environ.get('FTP_PATH'), localpath=LOCAL_PATH)
+    # Define the download URL and payload
+    download_url = f"https://{os.environ.get('DJANGO_DOMAIN')}/download"
+    payload = {"key": "value"}
 
-    # Upload File to AWS S3 Bucket
-    upload_to_s3(filename=FILE_NAME, localpath=LOCAL_PATH)
+    # Create a session object to persist cookies across requests
+    session = requests.Session()
+
+    # Make a GET request to the login URL to obtain the CSRF token
+    response = session.get(login_url)
+    csrf_token = response.cookies["csrftoken"]
+
+    # Define the login credentials and request headers
+    data = {
+        "username": username,
+        "password": password,
+        "csrfmiddlewaretoken": csrf_token
+    }
+    headers = {
+        "Referer": login_url
+    }
+
+    # Make a POST request to the login URL with the credentials and headers
+    response = session.post(login_url, data=data, headers=headers)
+
+    # Get the CSRF token from the response headers
+    csrf_token = response.cookies["csrftoken"]
+
+    # Define the request headers, including the CSRF token
+    headers = {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrf_token,
+    }
+
+    # Define the request payload
+    payload = {"key": "value"}
+
+    # Make a POST request with the payload and headers
+    response = session.post(download_url, json=payload, headers=headers)
 
 if __name__ == "__main__":
     main()

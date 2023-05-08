@@ -6,10 +6,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim
-from asv.utils.upload_file import handle_uploaded_file
+from asv.utils.upload_file import handle_uploaded_file, parse_csv_file
 from asv.utils.bulk_insert_data import bulk_insert_data
 from asv.utils.upload_to_s3 import upload_to_s3
 from os.path import abspath
+import datetime as dt
+import paramiko
 
 class BaseView(View):
     domain = str(os.environ.get('DJANGO_DOMAIN'))
@@ -125,14 +127,14 @@ class Upload(LoginRequiredMixin, BaseView):
         if not file_name.endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
         
-        """ updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv') """
-        local_path = abspath('../website/uploads/' + file_name)
+        updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
+        local_path = abspath('../website/uploads/' + updated_file_name)
 
-        data = handle_uploaded_file(f=file, localpath=local_path)
+        data = handle_uploaded_file(file_read_path=file, file_write_path=local_path)
 
         try:
             bulk_insert_data(data)
-            upload_to_s3(filename=file_name, localpath=file)
+            upload_to_s3(filename=updated_file_name, localpath=file)
             return render(request, self.template_name)
         except BaseException:
             os.remove(local_path)
@@ -158,3 +160,29 @@ class Logout(BaseView):
     def post(self, request, *args, **kwargs):
         logout(request)
         return JsonResponse({ 'data': 'Logged out.'}, status=200)
+
+class Download(BaseView):
+    def post(self, request, *args, **kwargs):
+        
+        FILE_NAME = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
+        LOCAL_PATH = abspath('./website/uploads/' + FILE_NAME)
+
+        # Download File From FTP
+        with paramiko.SSHClient() as ssh:
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect(os.environ.get('FTP_HOST'), username=os.environ.get('FTP_USERNAME'), password=os.environ.get('FTP_PASSWORD'))
+        
+            sftp = ssh.open_sftp()
+
+            sftp.get(remotepath=os.environ.get('FTP_PATH'), localpath=LOCAL_PATH)
+
+        # Parse File
+        data = parse_csv_file(file_path=LOCAL_PATH)
+
+        try:
+            bulk_insert_data(data)
+            upload_to_s3(filename=FILE_NAME, localpath=LOCAL_PATH)
+            return JsonResponse({ 'data': 'Success.'}, status=200)
+        except BaseException:
+            os.remove(LOCAL_PATH)
+            return JsonResponse({ 'data': 'Failed.'}, status=500)

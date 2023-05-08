@@ -6,5 +6,6 @@ urlpatterns = [
     path('trucks', views.Trucks.as_view(), name='trucks'),
     path('upload', views.Upload.as_view(), name='upload'),
     path('login', views.Login.as_view(), name='login'),
-    path('logout', views.Logout.as_view(), name='logout')
+    path('logout', views.Logout.as_view(), name='logout'),
+    path('download', views.Download.as_view(), name='download')
 ]
