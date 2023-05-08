@@ -1,4 +1,4 @@
-import { DynamicFilter, onChangeSelect } from "./dynamic.js";
+import { DynamicFilter } from "./dynamic.js";
 
 const form = document.getElementById("filter-trucks-form");
 
@@ -28,6 +28,32 @@ resetButton.addEventListener('click', function() {
 	filter.resetFilters();
 });
 
+
+
+async function onChangeSelect(e) {
+  let values = {};
+  const entry = Object.fromEntries(new FormData(this));
+  for (const [key, value] of Object.entries(entry)) {
+    if (value.length > 0) values[key] = value;
+  }
+  const params = new URLSearchParams(values);
+
+  try {
+    const response = await fetch("/trucks?" + params.toString(), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+      credentials: "include",
+    });
+    const { data } = await response.json();
+    handleDisplayChangedData(data);
+    this.filter.changeFilters(data);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 // Form Selects
 form.onchange = onChangeSelect;
 form.filter = filter;
@@ -52,14 +78,7 @@ form.addEventListener("submit", function (e) {
     credentials: "include",
   })
     .then((response) => response.json())
-    .then(({ data }) => {
-      counterContainer.style.display = "";
-      counter.innerHTML = data.length;
-      averageContainer.style.display = "";
-      average.innerHTML = "$" + calculateAverage(data).toFixed(2);
-      detailsToggle.style.display = "";
-      window.filteredVehiclesData = data;
-    })
+    .then(({ data }) => handleDisplayChangedData(data))
     .catch(console.error);
 });
 
@@ -169,4 +188,13 @@ function parseHeaderName(header) {
     stateabbreviation: "State Abbreviation",
   };
   return headers[header];
+}
+
+function handleDisplayChangedData(data) {
+  counterContainer.style.display = "";
+  counter.innerHTML = data.length;
+  averageContainer.style.display = "";
+  average.innerHTML = "$" + calculateAverage(data).toFixed(2);
+  detailsToggle.style.display = "";
+  window.filteredVehiclesData = data;
 }

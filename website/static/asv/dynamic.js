@@ -61,30 +61,7 @@ export class DynamicFilter {
     }
     return elements;
   }
-}
-
-export async function onChangeSelect(e) {
-  let values = {};
-  const entry = Object.fromEntries(new FormData(this));
-  for (const [key, value] of Object.entries(entry)) {
-    if (value.length > 0) values[key] = value;
-  }
-  const params = new URLSearchParams(values);
-
-  try {
-    const response = await fetch("/trucks?" + params.toString(), {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-      credentials: "include",
-    });
-    const { data } = await response.json();
-    this.filter.changeFilters(data);
-  } catch (err) {
-    console.error(err);
-  }
-}
+};
 
 const HTML_DICTIONARY = {
   year: "vehicle_details__year",
