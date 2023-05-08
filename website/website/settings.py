@@ -28,11 +28,12 @@ SERVER_IP = os.environ.get('SERVER_IP')
 DOMAIN = os.environ.get('DJANGO_DOMAIN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get('PRODUCTION')) == "0"
+DEBUG = str(os.environ.get('PRODUCTION')) == "1"
 
 ALLOWED_HOSTS = [SERVER_IP, DOMAIN]
 
 CSRF_TRUSTED_ORIGINS = [DOMAIN]
+CSRF_COOKIE_DOMAIN = DOMAIN
 
 # Application definition
 
