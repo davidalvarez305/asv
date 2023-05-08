@@ -32,7 +32,6 @@ DEBUG = str(os.environ.get('PRODUCTION')) == "0"
 
 ALLOWED_HOSTS = [SERVER_IP, DOMAIN]
 
-CSRF_COOKIE_DOMAIN = DOMAIN
 CSRF_TRUSTED_ORIGINS = [DOMAIN]
 
 # Application definition
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
