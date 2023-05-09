@@ -5,20 +5,30 @@ import requests
 def main():
     load_dotenv()
 
+    url = ""
+    root_domain = f"https://{os.environ.get('DJANGO_DOMAIN')}"
+
+    if os.environ.get('PRODUCTION') == '0':
+        local_root = root_domain.replace("https", "http")
+        local_root += ":8000"
+        root_domain = local_root
+    
+    print('root_domain: ', root_domain)
+    
     # Define the login URL and credentials
-    login_url = f"https://{os.environ.get('DJANGO_DOMAIN')}/login"
+    login_url = f"{root_domain}/login"
     username = os.environ.get('SECRET_LOGIN')
     password = os.environ.get('SECRET_PASSWORD')
 
     # Define the download URL and payload
-    download_url = f"https://{os.environ.get('DJANGO_DOMAIN')}/download"
+    download_url = f"{root_domain}/download"
     payload = {"key": "value"}
 
     # Create a session object to persist cookies across requests
     session = requests.Session()
 
     # Make a GET request to the login URL to obtain the CSRF token
-    response = session.get(login_url)
+    response = session.get(f"{root_domain}/")
     csrf_token = response.cookies["csrftoken"]
 
     # Define the login credentials and request headers
@@ -27,6 +37,7 @@ def main():
         "password": password,
         "csrfmiddlewaretoken": csrf_token
     }
+    
     headers = {
         "Referer": login_url
     }

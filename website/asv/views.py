@@ -1,4 +1,5 @@
 import os
+from posixpath import abspath
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponseBadRequest, JsonResponse
@@ -9,7 +10,6 @@ from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Tri
 from asv.utils.upload_file import handle_uploaded_file, parse_csv_file
 from asv.utils.bulk_insert_data import bulk_insert_data
 from asv.utils.upload_to_s3 import upload_to_s3
-from os.path import abspath
 import datetime as dt
 import paramiko
 
@@ -122,15 +122,14 @@ class Upload(LoginRequiredMixin, BaseView):
     
     def post(self, request, *args, **kwargs):
         file = request.FILES["upload_file"]
-        file_name = str(file)
 
-        if not file_name.endswith(".csv"):
+        if not str(file).endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
         
         updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
         local_path = abspath('../website/uploads/' + updated_file_name)
 
-        data = handle_uploaded_file(file_read_path=file, file_write_path=local_path)
+        data = handle_uploaded_file(file=file, file_write_path=local_path)
 
         try:
             bulk_insert_data(data)
@@ -165,7 +164,7 @@ class Download(BaseView):
     def post(self, request, *args, **kwargs):
         
         FILE_NAME = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
-        LOCAL_PATH = abspath('./website/uploads/' + FILE_NAME)
+        LOCAL_PATH = abspath('./uploads/' + FILE_NAME)
 
         # Download File From FTP
         with paramiko.SSHClient() as ssh:
