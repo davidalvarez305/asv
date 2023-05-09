@@ -126,7 +126,7 @@ class Upload(LoginRequiredMixin, BaseView):
         if not str(file).endswith(".csv"):
             return HttpResponseBadRequest("CSV Only.")
         
-        updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
+        updated_file_name = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%Y_%B.csv')
         local_path = abspath('../website/uploads/' + updated_file_name)
 
         data = handle_uploaded_file(file=file, file_write_path=local_path)
