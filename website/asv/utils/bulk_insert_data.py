@@ -3,9 +3,10 @@ from django.db import transaction
 from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
 
 def bulk_insert_data(data):
-    for i in range(0, len(data), 100):
+    step = 1000
+    for i in range(0, len(data), step):
         
-        rows = data[i:i+100]
+        rows = data[i:i+step]
         trucks_to_create = []
         
         try:
@@ -74,6 +75,7 @@ def bulk_insert_data(data):
 
                     trucks_to_create.append(truck)
             
+                print(f"Inserting {i + step} of {len(data)}")
                 Truck.objects.bulk_create(trucks_to_create)
         except BaseException as err:
             print("ERROR: ", err)
