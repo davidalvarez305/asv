@@ -5,7 +5,6 @@ import requests
 def main():
     load_dotenv()
 
-    url = ""
     root_domain = f"https://{os.environ.get('DJANGO_DOMAIN')}"
 
     if os.environ.get('PRODUCTION') == '0':

@@ -133,11 +133,13 @@ class Upload(LoginRequiredMixin, BaseView):
 
         try:
             bulk_insert_data(data)
-            upload_to_s3(filename=updated_file_name, localpath=file)
+            upload_to_s3(filename=updated_file_name, localpath=local_path)
             return render(request, self.template_name)
-        except BaseException:
-            os.remove(local_path)
+        except BaseException as err:
+            print("Error: ", err)
             return HttpResponseBadRequest("Bulk insert failed")
+        finally:
+            os.remove(local_path)
     
 class Login(BaseView):
     template_name = 'asv/login.html'
@@ -163,7 +165,7 @@ class Logout(BaseView):
 class Download(BaseView):
     def post(self, request, *args, **kwargs):
         
-        FILE_NAME = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%B_%Y.csv')
+        FILE_NAME = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%Y_%B.csv')
         LOCAL_PATH = abspath('./uploads/' + FILE_NAME)
 
         # Download File From FTP
@@ -180,8 +182,9 @@ class Download(BaseView):
 
         try:
             bulk_insert_data(data)
-            upload_to_s3(filename=FILE_NAME, localpath=LOCAL_PATH)
             return JsonResponse({ 'data': 'Success.'}, status=200)
-        except BaseException:
-            os.remove(LOCAL_PATH)
+        except BaseException as err:
             return JsonResponse({ 'data': 'Failed.'}, status=500)
+        finally:
+            upload_to_s3(filename=FILE_NAME, localpath=LOCAL_PATH)
+            os.remove(LOCAL_PATH)
