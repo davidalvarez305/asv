@@ -133,12 +133,12 @@ class Upload(LoginRequiredMixin, BaseView):
 
         try:
             bulk_insert_data(data)
-            upload_to_s3(filename=updated_file_name, localpath=local_path)
             return render(request, self.template_name)
         except BaseException as err:
             print("Error: ", err)
             return HttpResponseBadRequest("Bulk insert failed")
         finally:
+            upload_to_s3(filename=updated_file_name, localpath=local_path)
             os.remove(local_path)
     
 class Login(BaseView):
