@@ -32,38 +32,15 @@ class HomeView(LoginRequiredMixin, BaseView):
     def get(self, request, *args, **kwargs):
 
         years = VehicleDetails.objects.distinct("year").order_by("year").values("year")
-        cabtypes = VehicleDetails.objects.distinct("cabtype").order_by("cabtype").values("cabtype")
-        fueltypes = VehicleDetails.objects.distinct("fueltype").order_by("fueltype").values("fueltype")
-        enginesizes = VehicleDetails.objects.distinct("enginesize").order_by("enginesize").values("enginesize")
-        odometerreadingtypedescriptions = VehicleDetails.objects.distinct("odometerreadingtypedescription").order_by("odometerreadingtypedescription").values("odometerreadingtypedescription")
-        drivelinetypes = VehicleDetails.objects.distinct("drivelinetype").order_by("drivelinetype").values("drivelinetype")
-
         makes = Make.objects.order_by("make").values("id", "make")
         models = Model.objects.order_by("model").values("id", "model")
         trims = Trim.objects.order_by("trim").values("id", "trim")
-
-        yes_or_no = ["Yes", "No"]
-        starts_at_checkin = ["Yes", "No", "N/A"]
-        runs_and_drives = yes_or_no
-        air_bags_deployed = yes_or_no
-        damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").order_by("damage_description_primary").values("damage_description_primary")
-        loss_types = VehicleCondition.objects.distinct("loss_type").order_by("loss_type").values("loss_type")
 
         context = {}
         context["makes"] = makes
         context["models"] = models
         context["trims"] = trims
         context["years"] = years
-        context["cabtypes"] = cabtypes
-        context["fueltypes"] = fueltypes
-        context["enginesizes"] = enginesizes
-        context["odometerreadingtypedescriptions"] = odometerreadingtypedescriptions
-        context["drivelinetypes"] = drivelinetypes
-        context["starts_at_checkin"] = starts_at_checkin
-        context["runs_and_drives"] = runs_and_drives
-        context["air_bags_deployed"] = air_bags_deployed
-        context["damage_description_primarys"] = damage_description_primarys
-        context["loss_types"] = loss_types
 
         return render(request, self.template_name, context=context)
     

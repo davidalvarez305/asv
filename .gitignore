@@ -6,5 +6,6 @@ env
 uwsgi_params
 deploy.sh
 replicate.sh
+duplicate.sh
 node_modules
 __pycache__
