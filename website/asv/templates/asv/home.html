@@ -55,15 +55,18 @@
        <div id="filter-container" class="lg:w-2/3 mx-auto bg-white p-5 md:p-10 rounded-lg shadow-sm">
           <form class="space-y-6" id="filter-trucks-form">
             <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+               {% if years|length > 0 %}
                 <div class="space-y-1 grow">
-                    <label class="font-medium" for="vehicle_details__year">Year</label>
-                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__year" name="vehicle_details__year">
-                     <option value=""></option>
-                     {% for year in years %}
-                        <option value="{{ year.year }}">{{ year.year }}</option>
-                     {% endfor %}
-                    </select>
-                </div>
+                  <label class="font-medium" for="vehicle_details__year">Year</label>
+                  <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__year" name="vehicle_details__year">
+                   <option value=""></option>
+                   {% for year in years %}
+                      <option value="{{ year.year }}">{{ year.year }}</option>
+                   {% endfor %}
+                  </select>
+               </div>
+               {% endif %}
+               {% if makes|length > 0 %}
                 <div class="space-y-1 grow">
                     <label class="font-medium" for="vehicle_details__make__make">Make</label>
                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__make__make" name="vehicle_details__make__make">
@@ -73,9 +76,11 @@
                        {% endfor %}
                     </select>
                 </div>
+                {% endif %}
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
+                  {% if models|length > 0 %}
                     <label class="font-medium" for="vehicle_details__model__model">Model</label>
                     <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__model__model" name="vehicle_details__model__model">
                         <option value=""></option>
@@ -84,6 +89,8 @@
                         {% endfor %}
                     </select>
                 </div>
+                {% endif %}
+                {% if trims|length > 0 %}
                 <div class="space-y-1 grow">
                   <label class="font-medium" for="vehicle_details__trim__trim">Trim</label>
                   <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__trim__trim" name="vehicle_details__trim__trim">
@@ -93,8 +100,10 @@
                       {% endfor %}
                   </select>
                </div>
+               {% endif %}
              </div>
              <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+               {% if cabtypes|length > 0 %}
                  <div class="space-y-1 grow">
                      <label class="font-medium" for="vehicle_details__cabtype">Cab Type</label>
                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__cabtype" name="vehicle_details__cabtype">
@@ -104,6 +113,8 @@
                         {% endfor %}
                      </select>
                  </div>
+                 {% endif %}
+                 {% if fueltypes|length > 0 %}
                  <div class="space-y-1 grow">
                      <label class="font-medium" for="vehicle_details__fueltype">Fuel Type</label>
                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__fueltype" name="vehicle_details__fueltype">
@@ -113,8 +124,10 @@
                         {% endfor %}
                      </select>
                   </div>
+                  {% endif %}
               </div>
               <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+               {% if enginesizes|length > 0 %}
                <div class="space-y-1 grow">
                    <label class="font-medium" for="vehicle_details__enginesize">Engine Size</label>
                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__enginesize" name="vehicle_details__enginesize">
@@ -124,6 +137,8 @@
                       {% endfor %}
                    </select>
                </div>
+               {% endif %}
+               {% if odometerreadingtypedescriptions|length > 0 %}
                <div class="space-y-1 grow">
                    <label class="font-medium" for="vehicle_details__odometerreadingtypedescription">Odometer Reading Descr.</label>
                    <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__odometerreadingtypedescription" name="vehicle_details__odometerreadingtypedescription">
@@ -133,8 +148,10 @@
                       {% endfor %}
                    </select>
                 </div>
+                {% endif %}
                </div>
                <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+                  {% if drivelinetypes|length > 0 %}
                   <div class="space-y-1 grow">
                       <label class="font-medium" for="vehicle_details__drivelinetype">Drive Line Types</label>
                       <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__drivelinetype" name="vehicle_details__drivelinetype">
@@ -144,6 +161,8 @@
                          {% endfor %}
                       </select>
                   </div>
+                  {% endif %}
+                  {% if starts_at_checkin|length > 0 %}
                   <div class="space-y-1 grow">
                       <label class="font-medium" for="vehicle_details__vehicle_condition__starts_at_checkin">Starts At Check In</label>
                       <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__starts_at_checkin" name="vehicle_details__vehicle_condition__starts_at_checkin">
@@ -153,8 +172,10 @@
                          {% endfor %}
                       </select>
                   </div>
+                  {% endif %}
                </div>
                <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+                  {% if runs_and_drives|length > 0 %}
                   <div class="space-y-1 grow">
                       <label class="font-medium" for="vehicle_details__vehicle_condition__runs_and_drives">Runs & Drives</label>
                       <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__runs_and_drives" name="vehicle_details__vehicle_condition__runs_and_drives">
@@ -164,6 +185,8 @@
                          {% endfor %}
                       </select>
                   </div>
+                  {% endif %}
+                  {% if air_bags_deployed|length > 0 %}
                   <div class="space-y-1 grow">
                       <label class="font-medium" for="vehicle_details__vehicle_condition__air_bags_deployed">Air Bags Deployed</label>
                       <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__air_bags_deployed" name="vehicle_details__vehicle_condition__air_bags_deployed">
@@ -173,8 +196,10 @@
                          {% endfor %}
                       </select>
                   </div>
+                  {% endif %}
                </div>
                <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
+                  {% if damage_description_primarys|length > 0 %}
                   <div class="space-y-1 grow">
                       <label class="font-medium" for="vehicle_details__vehicle_condition__damage_description_primary">Damage Descr. Primary</label>
                       <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__damage_description_primary" name="vehicle_details__vehicle_condition__damage_description_primary">
@@ -184,6 +209,8 @@
                          {% endfor %}
                       </select>
                   </div>
+                  {% endif %}
+                  {% if loss_types|length > 0 %}
                   <div class="space-y-1 grow">
                      <label class="font-medium" for="vehicle_details__vehicle_condition__loss_type">Loss Types</label>
                      <select class="w-full block border border-gray-200 rounded px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" id="vehicle_details__vehicle_condition__loss_type" name="vehicle_details__vehicle_condition__loss_type">
@@ -193,6 +220,7 @@
                         {% endfor %}
                      </select>
                  </div>
+                 {% endif %}
                </div>
              <button type="submit" class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-blue-700 bg-blue-700 text-white hover:text-white hover:bg-blue-800 hover:border-blue-800 focus:ring focus:ring-blue-500 focus:ring-opacity-50 active:bg-blue-700 active:border-blue-700">
                Submit
