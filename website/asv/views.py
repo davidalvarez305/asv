@@ -166,7 +166,7 @@ class Download(BaseView):
     def post(self, request, *args, **kwargs):
         
         FILE_NAME = format(dt.date.today().replace(day=1) - dt.timedelta(days=1), '%Y_%B.csv')
-        LOCAL_PATH = abspath('./uploads/' + FILE_NAME)
+        LOCAL_PATH = abspath('../website/uploads/' + FILE_NAME)
 
         # Download File From FTP
         with paramiko.SSHClient() as ssh:
