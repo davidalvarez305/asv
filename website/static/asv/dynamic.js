@@ -54,6 +54,10 @@ export class DynamicFilter {
   createOptionsFactory(inputs) {
     let elements = [];
     for (let i = 0; i < inputs.length; i++) {
+
+      // Only add options if it's not an empty string which evaluates to false
+      if (!inputs[i]) continue;
+
       const el = document.createElement("option");
       el.value = inputs[i];
       el.innerHTML = inputs[i];
