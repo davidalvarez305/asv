@@ -1,5 +1,8 @@
 import { DynamicFilter } from "./dynamic.js";
 
+// Clean empty form fields as soon as js file is loaded
+document.addEventListener('DOMContentLoaded', () => updateFormFields());
+
 const form = document.getElementById("filter-trucks-form");
 
 // Home Cards
@@ -14,21 +17,29 @@ const headingContainer = document.getElementById("heading-container");
 const topCardsContainer = document.getElementById("top-cards-container");
 
 // Details Cards
-const filteredVehiclesCounterContainer = document.getElementById("filtered-vehicles-counter-container");
-const filteredVehiclesCounter = document.getElementById("filtered-vehicles-counter");
-const filteredVehiclesAverageContainer = document.getElementById("filtered-vehicles-average-container");
-const filteredVehiclesAverage = document.getElementById("filtered-vehicles-average");
-const filteredVehiclesToggle = document.getElementById("filtered-vehicles-toggle");
+const filteredVehiclesCounterContainer = document.getElementById(
+  "filtered-vehicles-counter-container"
+);
+const filteredVehiclesCounter = document.getElementById(
+  "filtered-vehicles-counter"
+);
+const filteredVehiclesAverageContainer = document.getElementById(
+  "filtered-vehicles-average-container"
+);
+const filteredVehiclesAverage = document.getElementById(
+  "filtered-vehicles-average"
+);
+const filteredVehiclesToggle = document.getElementById(
+  "filtered-vehicles-toggle"
+);
 
 // Dynamic Filters
 var filter = new DynamicFilter();
 const resetButton = document.getElementById("reset-filters-button");
 
-resetButton.addEventListener('click', function() {
-	filter.resetFilters();
+resetButton.addEventListener("click", function () {
+  filter.resetFilters();
 });
-
-
 
 async function onChangeSelect(e) {
   let values = {};
@@ -51,8 +62,10 @@ async function onChangeSelect(e) {
     this.filter.changeFilters(data);
   } catch (err) {
     console.error(err);
+  } finally {
+    updateFormFields();
   }
-};
+}
 
 // Form Selects
 form.onchange = onChangeSelect;
@@ -95,11 +108,12 @@ detailsToggle.addEventListener("click", function () {
   filteredVehiclesToggle.style.display = "";
   filteredVehiclesCounterContainer.style.display = "";
   filteredVehiclesAverageContainer.style.display = "";
-  filteredVehiclesAverage.innerHTML = "$" + calculateAverage(window.filteredVehiclesData).toFixed(2);
+  filteredVehiclesAverage.innerHTML =
+    "$" + calculateAverage(window.filteredVehiclesData).toFixed(2);
   filteredVehiclesCounter.innerHTML = window.filteredVehiclesData.length;
 });
 
-filteredVehiclesToggle.addEventListener("click", function() {
+filteredVehiclesToggle.addEventListener("click", function () {
   filterContainer.style.display = "";
   tableContainer.style.display = "none";
 
@@ -131,7 +145,8 @@ function createTable() {
   // Create headers
   for (let i = 0; i < headers.length; i++) {
     const heading = document.createElement("th");
-    heading.className = "px-3 py-4 text-gray-900 bg-gray-100/75 font-semibold text-left text-2xl dark:text-gray-50 dark:bg-gray-700/25";
+    heading.className =
+      "px-3 py-4 text-gray-900 bg-gray-100/75 font-semibold text-left text-2xl dark:text-gray-50 dark:bg-gray-700/25";
     heading.innerHTML = parseHeaderName(headers[i]);
     tableHeadingRow.appendChild(heading);
   }
@@ -197,4 +212,15 @@ function handleDisplayChangedData(data) {
   average.innerHTML = "$" + calculateAverage(data).toFixed(2);
   detailsToggle.style.display = "";
   window.filteredVehiclesData = data;
+}
+
+function updateFormFields() {
+  const labels = document.querySelectorAll("label");
+
+  labels.forEach(function (label) {
+    const selectElement = document.getElementById(label.htmlFor);
+    const hasMany = selectElement.querySelectorAll("option").length < 2;
+    label.style.display = hasMany ? "" : "none";
+    selectElement.style.display = hasMany ? "" : "none";
+  });
 }
