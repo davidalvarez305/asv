@@ -1,7 +1,7 @@
 import { DynamicFilter } from "./dynamic.js";
 
 // Clean empty form fields as soon as js file is loaded
-document.addEventListener('DOMContentLoaded', () => updateFormFields());
+window.addEventListener('load', () => updateFormFields());
 
 const form = document.getElementById("filter-trucks-form");
 
@@ -39,6 +39,7 @@ const resetButton = document.getElementById("reset-filters-button");
 
 resetButton.addEventListener("click", function () {
   filter.resetFilters();
+  updateFormFields();
 });
 
 async function onChangeSelect(e) {
@@ -219,7 +220,7 @@ function updateFormFields() {
 
   labels.forEach(function (label) {
     const selectElement = document.getElementById(label.htmlFor);
-    const hasMany = selectElement.querySelectorAll("option").length < 2;
+    const hasMany = selectElement.querySelectorAll("option").length > 1;
     label.style.display = hasMany ? "" : "none";
     selectElement.style.display = hasMany ? "" : "none";
   });
