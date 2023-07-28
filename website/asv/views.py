@@ -48,7 +48,7 @@ class HomeView(LoginRequiredMixin, BaseView):
     
 class Trucks(LoginRequiredMixin, BaseView):
     login_url="/login"
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
         trucks_qs = Truck.objects.select_related('vehicle_details',
@@ -91,36 +91,6 @@ class Trucks(LoginRequiredMixin, BaseView):
             trucks.append(data)
         
         return JsonResponse({ 'data': trucks })
-
-    def get(self, request, *args, **kwargs):
-        qs = Truck.objects.select_related('vehicle_details',
-                                                            'vehicle_details__vehicle_condition',
-                                                            'vehicle_details__make',
-                                                            'vehicle_details__model',
-                                                            'vehicle_details__trim',
-                                                            'sale__branch')
-        trucks = []
-        vehicle_details = []
-        vehicle_condition = []
-        branches = []
-        sales = []
-        lowercase_truck_list = [item.lower() for item in TRUCK_LIST]
-
-        for truck in qs:
-            if truck.vehicle_details.cabtype.lower() not in lowercase_truck_list:
-                vehicle_details.append(truck.vehicle_details.id)
-                vehicle_condition.append(truck.vehicle_details.vehicle_condition.id)
-                branches.append(truck.sale.branch.id)
-                sales.append(truck.sale.id)
-                trucks.append(truck.id)
-
-        Truck.objects.filter(id__in=trucks).delete()
-        VehicleDetails.objects.filter(id__in=vehicle_details).delete()
-        VehicleCondition.objects.filter(id__in=vehicle_condition).delete()
-        Branch.objects.filter(id__in=branches).delete()
-        Sale.objects.filter(id__in=sales).delete()
-
-        return JsonResponse({ 'data': len(trucks) })
     
 class Upload(LoginRequiredMixin, BaseView):
     login_url="/login"
