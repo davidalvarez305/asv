@@ -74,6 +74,15 @@ class Trucks(LoginRequiredMixin, BaseView):
     def get(self, request, *args, **kwargs):
         params = request.GET.dict()
 
+        today = dt.date.today()
+        
+        # Calculate the date 6 months ago
+        six_months_ago = today - dt.timedelta(days=6 * 30)  # Approximating 30 days per month
+        six_months_ago_formatted = six_months_ago.strftime('%m/%d/%Y')
+
+        params['sale__sale_date__gte'] = six_months_ago_formatted
+        print(params)
+
         trucks_qs = Truck.objects.select_related('vehicle_details',
                                                                   'vehicle_details__vehicle_condition',
                                                                   'vehicle_details__make',
@@ -113,6 +122,7 @@ class Trucks(LoginRequiredMixin, BaseView):
             }
             trucks.append(data)
         
+        print('TRUCKS: ', len(trucks))
         return JsonResponse({ 'data': trucks })
     
 class Upload(LoginRequiredMixin, BaseView):
