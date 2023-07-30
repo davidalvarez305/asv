@@ -78,10 +78,8 @@ class Trucks(LoginRequiredMixin, BaseView):
         
         # Calculate the date 6 months ago
         six_months_ago = today - dt.timedelta(days=6 * 30)  # Approximating 30 days per month
-        six_months_ago_formatted = six_months_ago.strftime('%m/%d/%Y')
 
-        params['sale__sale_date__gte'] = six_months_ago_formatted
-        print(params)
+        params['sale__sale_date__gte'] = six_months_ago
 
         trucks_qs = Truck.objects.select_related('vehicle_details',
                                                                   'vehicle_details__vehicle_condition',
