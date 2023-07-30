@@ -1,3 +1,4 @@
+import django
 from django.db import models
 
 DATA_TYPE_CHOICES = [
@@ -63,7 +64,7 @@ class Sale(models.Model):
     id = models.BigAutoField(primary_key=True)
     saledocumenttype = models.CharField(max_length=255, null=True)
     saleprice = models.CharField(max_length=255, null=True)
-    sale_date = models.CharField(max_length=255)
+    sale_date = models.DateField(null=False, default=django.utils.timezone.now)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, db_index=True)
 
 class Truck(models.Model):
