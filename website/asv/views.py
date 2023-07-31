@@ -75,7 +75,7 @@ class Trucks(LoginRequiredMixin, BaseView):
         params = request.GET.dict()
 
         # Six months ago
-        params['sale__sale_date__gte'] = dt.date.today() - dt.timedelta(days=6 * 30)
+        params['sale__sale_date__gte'] = dt.date.today() - dt.timedelta(days=3 * 30)
 
         trucks_qs = Truck.objects.select_related('vehicle_details',
                                                                   'vehicle_details__vehicle_condition',
