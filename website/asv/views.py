@@ -84,7 +84,7 @@ class Trucks(LoginRequiredMixin, BaseView):
                                                                   'vehicle_details__model',
                                                                   'vehicle_details__trim',
                                                                   'sale__branch'
-                                                                  ).filter(**params)
+                                                                  ).filter(**params).order_by('sale__sale_date')
         trucks = []
         for truck in trucks_qs:
             data = {
