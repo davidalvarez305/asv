@@ -215,5 +215,11 @@ timeFrameButtons.forEach(function (btn) {
     const value = parseInt(btn.getAttribute('data-time-frame'));
     const time = form.querySelector('#sale__sale_date__gte');
     time.value = value;
+
+    // Dispatch the event on the form element
+    form.dispatchEvent(new Event("submit", {
+      bubbles: true, // Allow the event to bubble up the DOM tree
+      cancelable: true // Allow the event to be canceled
+    }));
   });
 });
