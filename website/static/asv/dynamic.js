@@ -12,8 +12,9 @@ export class DynamicFilter {
     const keys = Object.keys(values);
 
     for (let i = 0; i < keys.length; i++) {
+      let children = [];
       const select = document.getElementById(`${keys[i]}`);
-      const children = Object.values(select.options);
+      if (select.options) Object.values(select.options);
       const options = children.map((option) => option.innerHTML);
       this.formInputs.originalInputs[keys[i]] = options;
     }

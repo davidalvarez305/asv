@@ -2,13 +2,30 @@
 {% load static %}
 {% block content %}
 <div class="bg-gray-100">
-    <div class="space-y-16 container xl:max-w-7xl mx-auto px-4 py-16 lg:px-8 lg:py-32">
+    <div class="space-y-12 container xl:max-w-7xl mx-auto px-4 py-16 lg:px-8 lg:py-32">
        <!-- Heading -->
        <div id="heading-container" class="text-center">
-          <h2 class="text-3xl md:text-4xl font-extrabold mb-4">
+          <h2 class="text-3xl md:text-4xl font-extrabold mb-2">
              Filter From The Controls
           </h2>
        </div>
+       <!-- Button Groups: Simple -->
+   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-8 text-center">
+      <div>
+      <!-- Button Group -->
+         <div class="inline-flex">
+            <button type="button" data-time-frame="3" class="inline-flex justify-center items-center space-x-2 border font-semibold rounded-l-lg px-4 py-2 leading-6 border-gray-200 bg-white text-gray-800 hover:z-1 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:z-1 focus:ring focus:ring-gray-300 focus:ring-opacity-25 active:z-1 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600 dark:focus:ring-opacity-40 dark:active:border-gray-700">
+               3 Months
+            </button>
+            <button type="button" data-time-frame="6" class="-ml-px inline-flex justify-center items-center space-x-2 border font-semibold px-4 py-2 leading-6 border-gray-200 bg-white text-gray-800 hover:z-1 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:z-1 focus:ring focus:ring-gray-300 focus:ring-opacity-25 active:z-1 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600 dark:focus:ring-opacity-40 dark:active:border-gray-700">
+               6 Months
+            </button>
+            <button type="button" data-time-frame="9" class="-ml-px inline-flex justify-center items-center space-x-2 border font-semibold rounded-r-lg px-4 py-2 leading-6 border-gray-200 bg-white text-gray-800 hover:z-1 hover:border-gray-300 hover:text-gray-900 hover:shadow-sm focus:z-1 focus:ring focus:ring-gray-300 focus:ring-opacity-25 active:z-1 active:border-gray-200 active:shadow-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:text-gray-200 dark:focus:ring-gray-600 dark:focus:ring-opacity-40 dark:active:border-gray-700">
+               9 Months
+            </button>
+         </div>
+      </div>
+      <!-- END Button Groups: Simple -->
        <div id="top-cards-container">
          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 mt-8 text-center">
             <!-- Card -->
@@ -54,6 +71,7 @@
        </div>
        <div id="filter-container" class="lg:w-2/3 mx-auto bg-white p-5 md:p-10 rounded-lg shadow-sm">
           <form class="space-y-6" id="filter-trucks-form">
+            <input id="sale__sale_date__gte" name="sale__sale_date__gte" type="hidden" value=3 />
             <div class="space-y-6 sm:space-y-0 sm:flex sm:space-x-3">
                 <div class="space-y-1 grow">
                     <label class="font-medium" for="vehicle_details__year">Year</label>

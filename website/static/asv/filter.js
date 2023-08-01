@@ -208,3 +208,12 @@ function handleDisplayChangedData(data) {
   detailsToggle.style.display = "";
   window.filteredVehiclesData = data;
 }
+
+const timeFrameButtons = document.querySelectorAll(`[data-time-frame]`);
+timeFrameButtons.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    const value = parseInt(btn.getAttribute('data-time-frame'));
+    const time = form.querySelector('#sale__sale_date__gte');
+    time.value = value;
+  });
+});
