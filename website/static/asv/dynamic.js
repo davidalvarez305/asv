@@ -54,11 +54,12 @@ export class DynamicFilter {
 
   createOptionsFactory(inputs) {
     let elements = [];
+
+    // If inputs is a bunch of empty strings, make only one option to leave the field as blank.
+    const emptyImputs = inputs.filter((input) => !input).length;
+    if (emptyImputs > 1) inputs = [""];
+
     for (let i = 0; i < inputs.length; i++) {
-
-      // Only add options if it's not an empty string which evaluates to false
-      if (!inputs[i]) continue;
-
       const el = document.createElement("option");
       el.value = inputs[i];
       el.innerHTML = inputs[i];
