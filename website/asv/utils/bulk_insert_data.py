@@ -1,4 +1,5 @@
 
+import datetime
 from django.db import transaction
 from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
 from asv.utils.truck_list import TRUCK_LIST
@@ -63,7 +64,7 @@ def bulk_insert_data(data):
                         )
 
                         sale = Sale.objects.create(
-                            sale_date=sale_date,
+                            sale_date=datetime.strptime(sale_date, '%m/%d/%Y').date(),
                             saleprice=row.get('SalePrice'),
                             saledocumenttype=row.get('SaleDocumentType'),
                             branch = branch
