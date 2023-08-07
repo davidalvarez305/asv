@@ -239,7 +239,7 @@ function handleSubmit(event) {
   if (!inputValue) return;
 
   const currentURL = new URL(window.location.href);
-  currentURL.searchParams.set("truck", inputValue);
+  currentURL.searchParams.set("truck", inputValue.toUpperCase());
   window.location.href = currentURL.toString();
 }
 

@@ -32,24 +32,29 @@ class BaseView(View):
 class HomeView(LoginRequiredMixin, BaseView):
     login_url="/login"
     def get(self, request, *args, **kwargs):
+        params = request.GET.dict()
 
-        years = VehicleDetails.objects.distinct("year").order_by("year").values("year")
-        cabtypes = VehicleDetails.objects.distinct("cabtype").order_by("cabtype").values("cabtype")
-        fueltypes = VehicleDetails.objects.distinct("fueltype").order_by("fueltype").values("fueltype")
-        enginesizes = VehicleDetails.objects.distinct("enginesize").order_by("enginesize").values("enginesize")
-        odometerreadingtypedescriptions = VehicleDetails.objects.distinct("odometerreadingtypedescription").order_by("odometerreadingtypedescription").values("odometerreadingtypedescription")
-        drivelinetypes = VehicleDetails.objects.distinct("drivelinetype").order_by("drivelinetype").values("drivelinetype")
+        make = params.get('truck')
+        if make is None:
+            return render(request, self.template_name)
 
-        makes = Make.objects.order_by("make").values("id", "make")
-        models = Model.objects.order_by("model").values("id", "model")
-        trims = Trim.objects.order_by("trim").values("id", "trim")
+        years = VehicleDetails.objects.distinct("year").order_by("year").values("year").filter(make__make=make)
+        cabtypes = VehicleDetails.objects.distinct("cabtype").order_by("cabtype").values("cabtype").filter(make__make=make)
+        fueltypes = VehicleDetails.objects.distinct("fueltype").order_by("fueltype").values("fueltype").filter(make__make=make)
+        enginesizes = VehicleDetails.objects.distinct("enginesize").order_by("enginesize").values("enginesize").filter(make__make=make)
+        odometerreadingtypedescriptions = VehicleDetails.objects.distinct("odometerreadingtypedescription").order_by("odometerreadingtypedescription").values("odometerreadingtypedescription").filter(make__make=make)
+        drivelinetypes = VehicleDetails.objects.distinct("drivelinetype").order_by("drivelinetype").values("drivelinetype").filter(make__make=make)
+
+        makes = Make.objects.order_by("make").values("id", "make").filter(make=make)
+        models = Model.objects.order_by("model").values("id", "model").filter(make__make=make)
+        trims = Trim.objects.order_by("trim").values("id", "trim").filter(model__make__make=make)
 
         yes_or_no = ["Yes", "No"]
         starts_at_checkin = ["Yes", "No", "N/A"]
         runs_and_drives = yes_or_no
         air_bags_deployed = yes_or_no
-        damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").order_by("damage_description_primary").values("damage_description_primary")
-        loss_types = VehicleCondition.objects.distinct("loss_type").order_by("loss_type").values("loss_type")
+        damage_description_primarys = VehicleCondition.objects.distinct("damage_description_primary").order_by("damage_description_primary").values("damage_description_primary").filter(vehicledetails__make__make=make)
+        loss_types = VehicleCondition.objects.distinct("loss_type").order_by("loss_type").values("loss_type").filter(vehicledetails__make__make=make)
 
         context = {}
         context["makes"] = makes
