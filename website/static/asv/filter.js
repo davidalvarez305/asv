@@ -44,6 +44,8 @@ async function onChangeSelect(e) {
   for (const [key, value] of Object.entries(entry)) {
     if (value.length > 0) values[key] = value;
   }
+  const truck = new URLSearchParams(window.location.search).get("truck");
+  if (truck) values['vehicle_details__make__make'] = truck;
   const params = new URLSearchParams(values);
 
   try {
@@ -76,6 +78,8 @@ form.addEventListener("submit", function (e) {
   for (const [key, value] of Object.entries(entry)) {
     if (value.length > 0) values[key] = value;
   }
+  const truck = new URLSearchParams(window.location.search).get("truck");
+  if (truck) values['vehicle_details__make__make'] = truck;
   const data = new URLSearchParams(values);
 
   fetch("/trucks?" + data.toString(), {
