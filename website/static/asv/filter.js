@@ -229,3 +229,19 @@ timeFrameButtons.forEach(function (btn) {
     }));
   });
 });
+
+// Make Form
+function handleSubmit(event) {
+  event.preventDefault();
+
+  const inputValue = document.getElementById("make_input").value;
+
+  if (!inputValue) return;
+
+  const currentURL = new URL(window.location.href);
+  currentURL.searchParams.set("truck", inputValue);
+  window.location.href = currentURL.toString();
+}
+
+// Attach the form submit event listener
+document.getElementById("make_form").addEventListener("submit", handleSubmit);
