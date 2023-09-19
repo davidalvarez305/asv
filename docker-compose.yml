@@ -1,6 +1,18 @@
 version: '3.7'
 
 services:
+  website:
+    build: .
+    restart: always
+    depends_on:
+      - postgres
+    image: iamdavidmiguelalvarez/asv:website
+    env_file:
+      - .env
+    volumes:
+    - data:/vol/website
+    ports:
+      - "8000:8000"
   postgres:
     build: ./postgres
     restart: always
