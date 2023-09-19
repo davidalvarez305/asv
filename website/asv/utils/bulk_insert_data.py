@@ -1,5 +1,4 @@
-
-import datetime
+from datetime import datetime
 from django.db import transaction
 from asv.models import Truck, VehicleCondition, VehicleDetails, Make, Model, Trim, Branch, Sale
 from asv.utils.truck_list import TRUCK_LIST
